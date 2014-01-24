@@ -19,6 +19,7 @@ namespace CatGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Model cube;
+        Model ramp;
 
         public Game1()
         {
@@ -55,7 +56,12 @@ namespace CatGame
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
-                    effect.PreferPerPixelLighting = true;
+                }
+            ramp = Content.Load<Model>("ramp");
+            foreach (ModelMesh mesh in ramp.Meshes)
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
                 }
         }
 
@@ -94,10 +100,11 @@ namespace CatGame
 
             // TODO: Add your drawing code here
             Matrix world = Matrix.Identity;
-            world *= Matrix.CreateRotationX((float) gameTime.TotalGameTime.TotalMilliseconds / 1000f);
-            Matrix view = Matrix.CreateLookAt(new Vector3(0, 5, -5), Vector3.Zero, Vector3.Up);
+            //world *= Matrix.CreateRotationX((float) gameTime.TotalGameTime.TotalMilliseconds / 1000f);
+            Matrix view = Matrix.CreateLookAt(new Vector3(0, 4, -3), new Vector3(0,0,5), Vector3.Up);
             Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 4f / 3f, 1, 1000);
 
+            ramp.Draw(Matrix.CreateTranslation(0,-1,-5), view, projection);
             cube.Draw(world, view, projection);
 
             base.Draw(gameTime);
