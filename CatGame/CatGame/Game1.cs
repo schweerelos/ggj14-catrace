@@ -44,7 +44,7 @@ namespace CatGame
             base.Initialize();
             for (int i = 0; i < numPlayers; i++)
             {
-                players[i] = new Player(cube,i);
+                players[i] = new Player(cube,PlayerIndex.One,true);
             }
             
         }
@@ -90,25 +90,17 @@ namespace CatGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            KeyboardState newState = Keyboard.GetState();
-            if (newState.IsKeyDown(Keys.Left) && !oldState.IsKeyDown(Keys.Left))
-                players[0].moveLeft();
 
-
-            if (newState.IsKeyDown(Keys.Right) && !oldState.IsKeyDown(Keys.Right))
-                players[0].moveRight();
-
-            float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
-
-            oldState = newState;
-
+            foreach (Player p in players)
+                p.update(gameTime);
+            
+            
             Keys[] keys = Keyboard.GetState().GetPressedKeys();
             if (keys.Contains(Keys.Escape))
                 this.Exit();
             
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+              //  this.Exit();
 
             // TODO: Add your update logic here
 

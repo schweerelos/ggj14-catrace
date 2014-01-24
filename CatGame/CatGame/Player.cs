@@ -4,19 +4,28 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace CatGame
 {
     class Player
     {
         private int lane = 3;
-        private int playerNumber;
+        private PlayerIndex playerIndex;
         private Model avatar;
+        KeyboardState oldKeyboardState;
+        GamePadState oldGamePadState;
 
-        public Player(Model avatar, int playerNumber){
+        public Player(Model avatar, PlayerIndex playerIndex, bool usesKeyboard){
             this.avatar = avatar;
             lane = 3;
-            this.playerNumber = playerNumber;
+            this.playerIndex = playerIndex;
+            this.usesKeyboard = usesKeyboard;
+
+            if (this.usesKeyboard)
+                oldKeyboardState = Keyboard.GetState();
+            else
+                oldGamePadState = GamePad.GetState(playerIndex);
 
         }
 
@@ -38,5 +47,42 @@ namespace CatGame
             avatar.Draw(world, view, projection);
         }
 
+
+        public bool usesKeyboard { get; set; }
+
+        public void update(GameTime gameTime)
+        {
+            float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
+            updateInputs();
+        }
+
+        private void updateInputs()
+        {
+
+            if (this.usesKeyboard)
+            {
+                KeyboardState newState = Keyboard.GetState();
+                if (newState.IsKeyDown(Keys.Left) && !oldKeyboardState.IsKeyDown(Keys.Left))
+                    this.moveLeft();
+
+
+                if (newState.IsKeyDown(Keys.Right) && !oldKeyboardState.IsKeyDown(Keys.Right))
+                    this.moveRight();
+                oldKeyboardState = newState;
+            }
+            else
+            {
+                GamePadState newState = GamePad.GetState(playerIndex);
+
+                if (newState.Buttons.LeftShoulder == ButtonState.Pressed &&
+                    oldGamePadState.Buttons.LeftShoulder == ButtonState.Released)
+                    this.moveLeft();
+                if (newState.Buttons.RightShoulder == ButtonState.Pressed &&
+                    oldGamePadState.Buttons.RightShoulder == ButtonState.Released)
+                    this.moveRight();
+
+                oldGamePadState = newState;
+            }
+        }
     }
 }
