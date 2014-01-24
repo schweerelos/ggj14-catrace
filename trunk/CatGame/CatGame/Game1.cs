@@ -119,7 +119,8 @@ namespace CatGame
                 {
                     foreach (Player p in players)
                     {
-                        if (o.covers(p.getLane()))
+                        // TODO figure out if player is jumping
+                        if (o.covers(p.getLane(), false))
                         {
                             try
                             {

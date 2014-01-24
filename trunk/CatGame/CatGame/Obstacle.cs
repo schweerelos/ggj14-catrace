@@ -68,15 +68,20 @@ namespace CatGame
         }
 
 
-        internal bool covers(int queryLane)
+        internal bool covers(int queryLane, bool isJumping)
         {
-            // TODO jumping
-            if ((size == 0 || size == -1) && queryLane == lane)
-                return true;
-            else if (size == 1 && Math.Abs(lane - queryLane) <= 1)
-                return true;
-            else 
-                return (size == 2 && Math.Abs(lane - queryLane) <= 2);
+            switch (size)
+            {
+                case -1:
+                    return queryLane == lane && !isJumping;
+                case 0:
+                    return queryLane == lane;
+                case 1:
+                    return Math.Abs(lane - queryLane) <= 1;
+                case 2:
+                    return Math.Abs(lane - queryLane) <= 2;
+            }
+            return false;
         }
     }
 }
