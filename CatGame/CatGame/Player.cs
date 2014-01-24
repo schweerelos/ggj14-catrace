@@ -8,11 +8,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CatGame
 {
-    class Player
+    class Player : ThreeDObject
     {
 
         private PlayerIndex playerIndex;
-        private Model avatar;
         KeyboardState oldKeyboardState;
         GamePadState oldGamePadState;
         float currentPos;
@@ -20,8 +19,10 @@ namespace CatGame
         private float targetPos;
         private float speed = 2f;
         
-        public Player(Model avatar, PlayerIndex playerIndex, bool usesKeyboard){
-            this.avatar = avatar;
+        public const int AVATAR_SIZE = 128;
+        private Texture2D texture;
+
+        public Player(PlayerIndex playerIndex, bool usesKeyboard) : base("cube") {
 
             startingPos = 3;
             targetPos = startingPos;
@@ -34,7 +35,6 @@ namespace CatGame
                 oldKeyboardState = Keyboard.GetState();
             else
                 oldGamePadState = GamePad.GetState(playerIndex);
-
         }
 
         public void moveLeft()
@@ -53,15 +53,6 @@ namespace CatGame
             if (targetPos <= 5)
                 targetPos++;
         }
-
-        public void draw(Matrix view, Matrix projection)
-        {
-            Matrix world = Matrix.Identity;
-            
-            world = Matrix.CreateTranslation(currentPos, 0, 0);
-            avatar.Draw(world, view, projection);
-        }
-
 
         public bool usesKeyboard { get; set; }
 
@@ -107,6 +98,10 @@ namespace CatGame
             }
         }
 
+        internal Texture2D GetTexture()
+        {
+            return texture;
+        }
 
         internal void takeHit()
         {

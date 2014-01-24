@@ -4,22 +4,27 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace CatGame
 {
-    class Obstacle
+    class Obstacle : ThreeDObject
     {
-        private Model avatar;
         private int lane;
         private int size; // -1 = small; 0 = normal; 1 = big; 2 = huge
         private float distanceTravelled;
+        private static Model cubeModel;
 
-        public Obstacle(Model avatar, int lane)
+        public Obstacle(int lane) : base("cube")
         {
-            this.avatar = avatar;
+            model = cubeModel;
             this.lane = lane;
             size = 0; // "normal" size initially
             distanceTravelled = -100;
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
         }
 
         public void moveLeft()
@@ -73,12 +78,9 @@ namespace CatGame
             return distanceTravelled >= position;
         }
 
-        public void draw(Matrix view, Matrix projection)
+        public override void Update(float delta)
         {
-            // TODO take size into account
-            Matrix world = Matrix.Identity;
-            world *= Matrix.CreateTranslation(lane, 0, distanceTravelled);
-            avatar.Draw(world, view, projection);
+            world = Matrix.CreateTranslation(lane, 0, distanceTravelled);
         }
 
 
@@ -96,6 +98,16 @@ namespace CatGame
                     return Math.Abs(lane - queryLane) <= 2;
             }
             return false;
+        }
+
+        public static void StaticLoadContent(ContentManager content)
+        {
+            cubeModel = content.Load<Model>("cube");
+            foreach (ModelMesh mesh in cubeModel.Meshes)
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                }
         }
     }
 }

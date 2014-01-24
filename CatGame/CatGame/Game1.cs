@@ -18,7 +18,6 @@ namespace CatGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Model cube;
         Ramp ramp;
         KeyboardState oldState = Keyboard.GetState();
         const int numPlayers = 1;
@@ -39,6 +38,10 @@ namespace CatGame
             Content.RootDirectory = "Content";
 
             ramp = new Ramp();
+            for (int i = 0; i < numPlayers; i++)
+            {
+                players[i] = new Player(PlayerIndex.One, true);
+            }
         }
 
         /// <summary>
@@ -52,10 +55,6 @@ namespace CatGame
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            for (int i = 0; i < numPlayers; i++)
-            {
-                players[i] = new Player(cube,PlayerIndex.One,true);
-            }
         }
 
         /// <summary>
@@ -67,15 +66,12 @@ namespace CatGame
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-            cube = Content.Load<Model>("cube");
-            // Turn on default lighting in the BasicEffects used by the model
-            foreach (ModelMesh mesh in cube.Meshes)
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                }
             ramp.LoadContent(Content);
+            Obstacle.StaticLoadContent(Content);
+            for (int i = 0; i < numPlayers; i++)
+            {
+                players[i].LoadContent(Content);
+            }
         }
 
         /// <summary>
@@ -150,9 +146,12 @@ namespace CatGame
             elapsedSinceLastObstacle += gameTime.ElapsedGameTime.TotalMilliseconds;
             if (elapsedSinceLastObstacle + (randomSource.NextDouble() * 800) >= newObstacleThreshold)
             {
-                obstacles.Add(new Obstacle(cube, randomSource.Next(0,6)));
+                obstacles.Add(new Obstacle(randomSource.Next(0,6)));
                 elapsedSinceLastObstacle = 0;
             }
+
+            foreach (Obstacle obstacle in obstacles)
+                obstacle.Update(delta);
 
             // TODO: Add your update logic here
             ramp.Update(delta);
@@ -170,21 +169,30 @@ namespace CatGame
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            Matrix world = Matrix.Identity;
             //world *= Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalMilliseconds / 1000f);
             Matrix view = Matrix.CreateLookAt(new Vector3(3, 3, 3), new Vector3(3,0,-5), Vector3.Forward);
             Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 4f / 3f, 1, 1000);
+            float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
-            ramp.Draw(view, projection);
+            ramp.Draw(delta, view, projection);
 
             foreach (Obstacle o in obstacles)
             {
-                o.draw(view, projection);
+                o.Draw(delta, view, projection);
             }
 
             foreach (Player p in players) {
-                p.draw(view,projection);
+                p.Draw(delta,view,projection);
             }
+
+            // Sprite mode
+            spriteBatch.Begin();
+            for (int i = 0; i < players.Length; i++)
+            {
+                Rectangle position = new Rectangle(0, 0, Player.AVATAR_SIZE, Player.AVATAR_SIZE);
+                //spriteBatch.Draw(players[i].GetTexture(), position, Color.White);
+            }
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
