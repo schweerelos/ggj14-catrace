@@ -19,28 +19,42 @@ namespace CatGame
             this.avatar = avatar;
             this.lane = lane;
             size = 0; // "normal" size initially
-            distanceTravelled = -100; // TODO use sensible value
+            distanceTravelled = -100;
         }
 
         public void moveLeft()
         {
-            // TODO take size of obstacle into account
-            if (lane >= 1)
+            int leftCutoff = Math.Max(1, size + 1);   
+            if (lane >= leftCutoff)
                 lane--;
         }
 
         public void moveRight()
         {
-            // TODO take size of obstacle into account
-            if (lane <= 5)
+            if (lane <= Math.Min(5, 5 - size))
                 lane++;
         }
 
         public void increaseSize()
         {
-            // TODO what if obstacle is already on the edge of the ramp?
-            if (size <= 1)
-                size++;
+            Console.WriteLine("Old size is " + size + "; old lane is " + lane);
+            switch (size)
+            {
+                case -1:
+                    size = 0;
+                    return;
+                case 0:
+                    size = 1;
+                    if (lane == 0) lane = 1;
+                    else if (lane == 6) lane = 5;
+                    return;
+                case 1:
+                    size = 2;
+                    if (lane <= 1) lane = 2;
+                    else if (lane >= 5) lane = 4;
+                    return;
+            }
+            Console.WriteLine("New size is " + size + "; new lane is " + lane);
         }
 
         public void decreaseSize()
