@@ -153,7 +153,7 @@ namespace CatGame
             }
 
             foreach (Player p in players) {
-                p.draw(world,view,projection);
+                p.draw(view,projection);
             }
 
             base.Draw(gameTime);

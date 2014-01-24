@@ -15,10 +15,16 @@ namespace CatGame
         private Model avatar;
         KeyboardState oldKeyboardState;
         GamePadState oldGamePadState;
-
+        float currentPos, progress;
+        private float startingPos;
+        private float targetPos;
+        private float speed = 0.90f;
+        
         public Player(Model avatar, PlayerIndex playerIndex, bool usesKeyboard){
             this.avatar = avatar;
             lane = 3;
+            startingPos = lane;
+            targetPos = lane;
             this.playerIndex = playerIndex;
             this.usesKeyboard = usesKeyboard;
 
@@ -31,19 +37,28 @@ namespace CatGame
 
         public void moveLeft()
         {
+            startingPos = currentPos;
+            progress = 0;
             if (lane >= 1)
                 lane--;
+            targetPos = lane;
+            
         }
 
         public void moveRight()
         {
+            startingPos = currentPos;
+            progress = 0;
             if (lane <= 5)
                 lane++;
+            targetPos = lane;
         }
 
-        public void draw(Matrix world, Matrix view, Matrix projection)
+        public void draw(Matrix view, Matrix projection)
         {
-            world = Matrix.CreateTranslation(lane, 0, 0);
+            Matrix world = Matrix.Identity;
+            
+            world = Matrix.CreateTranslation(currentPos, 0, 0);
             avatar.Draw(world, view, projection);
         }
 
@@ -53,6 +68,16 @@ namespace CatGame
         public void update(GameTime gameTime)
         {
             float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
+
+            progress = (progress + delta);
+            if (progress >= speed)
+            {
+                progress = speed;
+                startingPos = targetPos;
+            }
+            
+            currentPos = MathHelper.Lerp(startingPos, targetPos, progress/speed);
+            Console.WriteLine(startingPos + ", " + targetPos + ", " + currentPos);
             updateInputs();
         }
 
@@ -84,5 +109,7 @@ namespace CatGame
                 oldGamePadState = newState;
             }
         }
+
+        
     }
 }
