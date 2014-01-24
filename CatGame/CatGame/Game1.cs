@@ -20,6 +20,9 @@ namespace CatGame
         SpriteBatch spriteBatch;
         Model cube;
         Model ramp;
+        KeyboardState oldState = Keyboard.GetState();
+        const int numPlayers = 1;
+        Player[] players = new Player[numPlayers];
 
         public Game1()
         {
@@ -38,6 +41,11 @@ namespace CatGame
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            for (int i = 0; i < numPlayers; i++)
+            {
+                players[i] = new Player(cube);
+            }
+            
         }
 
         /// <summary>
@@ -82,6 +90,21 @@ namespace CatGame
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
+            KeyboardState newState = Keyboard.GetState();
+            if (newState.IsKeyDown(Keys.Left) && !oldState.IsKeyDown(Keys.Left))
+                players[0].moveLeft();
+
+
+            if (newState.IsKeyDown(Keys.Right) && !oldState.IsKeyDown(Keys.Right))
+                players[0].moveRight();
+
+
+            oldState = newState;
+
+            Keys[] keys = Keyboard.GetState().GetPressedKeys();
+            if (keys.Contains(Keys.Escape))
+                this.Exit();
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
@@ -100,12 +123,15 @@ namespace CatGame
 
             // TODO: Add your drawing code here
             Matrix world = Matrix.Identity;
-            //world *= Matrix.CreateRotationX((float) gameTime.TotalGameTime.TotalMilliseconds / 1000f);
-            Matrix view = Matrix.CreateLookAt(new Vector3(0, 4, -3), new Vector3(0,0,5), Vector3.Up);
+            world *= Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalMilliseconds / 1000f);
+            Matrix view = Matrix.CreateLookAt(new Vector3(0, 5, 5), Vector3.Zero, Vector3.Up);
             Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 4f / 3f, 1, 1000);
 
-            ramp.Draw(Matrix.CreateTranslation(0,-1,-5), view, projection);
-            cube.Draw(world, view, projection);
+            ramp.Draw(Matrix.CreateTranslation(0, -1, -5), view, projection);
+
+            foreach (Player p in players) {
+                p.draw(world,view,projection);
+            }
 
             base.Draw(gameTime);
         }
