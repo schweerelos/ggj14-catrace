@@ -110,7 +110,7 @@ namespace CatGame
             List<Obstacle> obstaclesCopy = new List<Obstacle>();
             foreach (Obstacle o in obstacles)
             {
-                o.progress(delta * 10);
+                o.Update(delta);
                 if (o.hasReached(0))
                 {
                     foreach (Player p in players)
@@ -149,9 +149,6 @@ namespace CatGame
                 obstacles.Add(new Obstacle(randomSource.Next(0,6)));
                 elapsedSinceLastObstacle = 0;
             }
-
-            foreach (Obstacle obstacle in obstacles)
-                obstacle.Update(delta);
 
             // TODO: Add your update logic here
             ramp.Update(delta);

@@ -21,6 +21,7 @@ namespace CatGame
             this.lane = lane;
             size = 0; // "normal" size initially
             distanceTravelled = -100;
+            world = Matrix.CreateTranslation(lane, 0, distanceTravelled);
         }
 
         public override void LoadContent(ContentManager content)
@@ -68,11 +69,6 @@ namespace CatGame
                 size--;
         }
 
-        public void progress(float amount)
-        {
-            distanceTravelled += amount;
-        }
-
         internal bool hasReached(float position)
         {
             return distanceTravelled >= position;
@@ -80,9 +76,9 @@ namespace CatGame
 
         public override void Update(float delta)
         {
+            distanceTravelled += (delta * 10);
             world = Matrix.CreateTranslation(lane, 0, distanceTravelled);
         }
-
 
         internal bool covers(float queryLane, bool isJumping)
         {
