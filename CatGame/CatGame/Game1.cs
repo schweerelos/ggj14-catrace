@@ -98,6 +98,7 @@ namespace CatGame
             if (newState.IsKeyDown(Keys.Right) && !oldState.IsKeyDown(Keys.Right))
                 players[0].moveRight();
 
+            float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
             oldState = newState;
 
@@ -123,11 +124,11 @@ namespace CatGame
 
             // TODO: Add your drawing code here
             Matrix world = Matrix.Identity;
-            world *= Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalMilliseconds / 1000f);
-            Matrix view = Matrix.CreateLookAt(new Vector3(0, 5, 5), Vector3.Zero, Vector3.Up);
+            //world *= Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalMilliseconds / 1000f);
+            Matrix view = Matrix.CreateLookAt(new Vector3(3, 3, 3), new Vector3(3,0,-10), Vector3.Up);
             Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 4f / 3f, 1, 1000);
 
-            ramp.Draw(Matrix.CreateTranslation(0, -1, -5), view, projection);
+            ramp.Draw(Matrix.CreateTranslation(3, -1, 5), view, projection);
 
             foreach (Player p in players) {
                 p.draw(world,view,projection);
