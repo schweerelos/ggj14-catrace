@@ -44,7 +44,7 @@ namespace CatGame
             base.Initialize();
             for (int i = 0; i < numPlayers; i++)
             {
-                players[i] = new Player(cube);
+                players[i] = new Player(cube,i);
             }
             
         }
