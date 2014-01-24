@@ -8,31 +8,35 @@ using Microsoft.Xna.Framework.Content;
 
 namespace CatGame
 {
-    class Ramp
+    class Ramp : ThreeDObject
     {
-        Model model;
         float textureCycle = 0;
-        Matrix world = Matrix.CreateTranslation(3, -1, 5);
 
-        public void Update(float delta)
+        public Ramp()
+            : base("ramp")
+        {
+            world = Matrix.CreateTranslation(3, -1, 5);
+        }
+
+        public override void Update(float delta)
         {
             // Cycle the texture
             textureCycle += delta;
         }
 
-        internal void LoadContent(ContentManager content)
+        public override void LoadContent(ContentManager content)
         {
-            model = content.Load<Model>("ramp");
+            base.LoadContent(content);
             foreach (ModelMesh mesh in model.Meshes)
                 foreach (BasicEffect effect in mesh.Effects)
                 {
+                    effect.DirectionalLight0.Enabled = true;
+                    effect.DirectionalLight0.Direction = Vector3.Down;
+                    effect.DirectionalLight1.Enabled = false;
+                    effect.DirectionalLight2.Enabled = false;
                     effect.AmbientLightColor = Color.White.ToVector3();
+                    effect.LightingEnabled = true;
                 }
-        }
-
-        internal void Draw(Matrix view, Matrix projection)
-        {
-            model.Draw(world, view, projection);
         }
     }
 }

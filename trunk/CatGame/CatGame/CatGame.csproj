@@ -79,6 +79,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Ramp.cs" />
+    <Compile Include="ThreeDObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
