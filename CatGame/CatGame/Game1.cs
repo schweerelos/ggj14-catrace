@@ -19,7 +19,7 @@ namespace CatGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Model cube;
-        Model ramp;
+        Ramp ramp;
         KeyboardState oldState = Keyboard.GetState();
         const int numPlayers = 1;
         Player[] players = new Player[numPlayers];
@@ -28,7 +28,13 @@ namespace CatGame
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 1024;
+            graphics.PreferredBackBufferWidth = 1680;
+            //graphics.IsFullScreen = true;
+
             Content.RootDirectory = "Content";
+
+            ramp = new Ramp();
         }
 
         /// <summary>
@@ -46,7 +52,6 @@ namespace CatGame
             {
                 players[i] = new Player(cube,PlayerIndex.One,true);
             }
-            
         }
 
         /// <summary>
@@ -66,12 +71,7 @@ namespace CatGame
                 {
                     effect.EnableDefaultLighting();
                 }
-            ramp = Content.Load<Model>("ramp");
-            foreach (ModelMesh mesh in ramp.Meshes)
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                }
+            ramp.LoadContent(Content);
         }
 
         /// <summary>
@@ -90,6 +90,10 @@ namespace CatGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
+
+            // Allows the game to exit
+            KeyboardState newState = Keyboard.GetState();
 
             foreach (Player p in players)
                 p.update(gameTime);
@@ -103,6 +107,7 @@ namespace CatGame
               //  this.Exit();
 
             // TODO: Add your update logic here
+            ramp.Update(delta);
 
             base.Update(gameTime);
         }
@@ -113,15 +118,15 @@ namespace CatGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.LightSalmon);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             Matrix world = Matrix.Identity;
             //world *= Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalMilliseconds / 1000f);
-            Matrix view = Matrix.CreateLookAt(new Vector3(3, 3, 3), new Vector3(3,0,-10), Vector3.Up);
+            Matrix view = Matrix.CreateLookAt(new Vector3(3, 3, 3), new Vector3(3,0,-5), Vector3.Forward);
             Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 4f / 3f, 1, 1000);
 
-            ramp.Draw(Matrix.CreateTranslation(3, -1, 5), view, projection);
+            ramp.Draw(view, projection);
 
             foreach (Player p in players) {
                 p.draw(world,view,projection);

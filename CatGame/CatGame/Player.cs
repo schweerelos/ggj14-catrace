@@ -43,7 +43,7 @@ namespace CatGame
 
         public void draw(Matrix world, Matrix view, Matrix projection)
         {
-            world *= Matrix.CreateTranslation(lane, 0, 0);
+            world = Matrix.CreateTranslation(lane, 0, 0);
             avatar.Draw(world, view, projection);
         }
 
