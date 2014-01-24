@@ -23,7 +23,7 @@ namespace CatGame
         KeyboardState oldState = Keyboard.GetState();
         const int numPlayers = 1;
         Player[] players = new Player[numPlayers];
-        const double newObstacleThreshold = 1900;
+        const double newObstacleThreshold = 1500;
         private double elapsedSinceLastObstacle;
         List<Obstacle> obstacles = new List<Obstacle>();
 
@@ -110,16 +110,45 @@ namespace CatGame
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
               //  this.Exit();
 
+            // Move the obstacles
+            List<Obstacle> obstaclesCopy = new List<Obstacle>();
             foreach (Obstacle o in obstacles)
             {
                 o.progress(delta * 10);
+                if (o.hasReached(0))
+                {
+                    foreach (Player p in players)
+                    {
+                        if (o.covers(p.getLane()))
+                        {
+                            try
+                            {
+                                p.takeHit();
+                            }
+                            catch (OutOfLivesException oole)
+                            {
+                                Console.WriteLine("Player dead");
+                                this.Exit();
+                            }
+                        }
+                        else
+                        {
+                            p.incrementSurvivedObstacles();
+                        }
+                    }
+                }
+                else
+                {
+                    // Next round will only have those obstacles that aren't at the bottom yet
+                    obstaclesCopy.Add(o);
+                }
             }
+            obstacles = obstaclesCopy;
 
-            // Update the obstacles
+            // Add new obstacles when needed
             elapsedSinceLastObstacle += gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (elapsedSinceLastObstacle >= newObstacleThreshold)
+            if (elapsedSinceLastObstacle + (randomSource.NextDouble() * 800) >= newObstacleThreshold)
             {
-                // make a new obstacle
                 obstacles.Add(new Obstacle(cube, randomSource.Next(0,6)));
                 elapsedSinceLastObstacle = 0;
             }

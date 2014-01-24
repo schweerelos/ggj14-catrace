@@ -54,12 +54,29 @@ namespace CatGame
             distanceTravelled += amount;
         }
 
+        internal bool hasReached(float position)
+        {
+            return distanceTravelled >= position;
+        }
+
         public void draw(Matrix view, Matrix projection)
         {
             // TODO take size into account
             Matrix world = Matrix.Identity;
             world *= Matrix.CreateTranslation(lane, 0, distanceTravelled);
             avatar.Draw(world, view, projection);
+        }
+
+
+        internal bool covers(int queryLane)
+        {
+            // TODO jumping
+            if ((size == 0 || size == -1) && queryLane == lane)
+                return true;
+            else if (size == 1 && Math.Abs(lane - queryLane) <= 1)
+                return true;
+            else 
+                return (size == 2 && Math.Abs(lane - queryLane) <= 2);
         }
     }
 }

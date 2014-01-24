@@ -25,6 +25,8 @@ namespace CatGame
             lane = 3;
             startingPos = lane;
             targetPos = lane;
+            lives = 9;
+            score = 0;
             this.playerIndex = playerIndex;
             this.usesKeyboard = usesKeyboard;
 
@@ -110,6 +112,33 @@ namespace CatGame
             }
         }
 
+
+        internal int getLane()
+        {
+            return lane;
+        }
+
+        internal void takeHit()
+        {
+            if (lives <= 1)
+            {
+                throw new OutOfLivesException();
+            }
+            lives--;
+            Console.WriteLine("Lives: " + lives);
+        }
+
+        internal void incrementSurvivedObstacles()
+        {
+            score++;
+            Console.WriteLine("Score: " + score);
+        }
+
+
+
+        public int score { get; set; }
+
+        public int lives { get; set; }
         
     }
 }
