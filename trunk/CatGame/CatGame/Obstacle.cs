@@ -82,7 +82,7 @@ namespace CatGame
         }
 
 
-        internal bool covers(int queryLane, bool isJumping)
+        internal bool covers(float queryLane, bool isJumping)
         {
             switch (size)
             {

@@ -10,21 +10,21 @@ namespace CatGame
 {
     class Player
     {
-        private int lane = 3;
+
         private PlayerIndex playerIndex;
         private Model avatar;
         KeyboardState oldKeyboardState;
         GamePadState oldGamePadState;
-        float currentPos, progress;
+        float currentPos;
         private float startingPos;
         private float targetPos;
-        private float speed = 0.90f;
+        private float speed = 2f;
         
         public Player(Model avatar, PlayerIndex playerIndex, bool usesKeyboard){
             this.avatar = avatar;
-            lane = 3;
-            startingPos = lane;
-            targetPos = lane;
+
+            startingPos = 3;
+            targetPos = startingPos;
             lives = 9;
             score = 0;
             this.playerIndex = playerIndex;
@@ -40,20 +40,18 @@ namespace CatGame
         public void moveLeft()
         {
             startingPos = currentPos;
-            progress = 0;
-            if (lane >= 1)
-                lane--;
-            targetPos = lane;
+
+            if (targetPos >= 1)
+                targetPos--;
             
         }
 
         public void moveRight()
         {
             startingPos = currentPos;
-            progress = 0;
-            if (lane <= 5)
-                lane++;
-            targetPos = lane;
+
+            if (targetPos <= 5)
+                targetPos++;
         }
 
         public void draw(Matrix view, Matrix projection)
@@ -69,18 +67,15 @@ namespace CatGame
 
         public void update(GameTime gameTime)
         {
-            float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
-
-            progress = (progress + delta);
-            if (progress >= speed)
-            {
-                progress = speed;
-                startingPos = targetPos;
-            }
-            
-            currentPos = MathHelper.Lerp(startingPos, targetPos, progress/speed);
-            Console.WriteLine(startingPos + ", " + targetPos + ", " + currentPos);
             updateInputs();
+
+            float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
+                        
+            float direction = Math.Sign(targetPos - startingPos);
+            float deltaPos = delta * speed;
+
+            currentPos = direction > 0 ? Math.Min(currentPos + deltaPos, targetPos) : Math.Max(currentPos - deltaPos, targetPos);
+            
         }
 
         private void updateInputs()
@@ -113,11 +108,6 @@ namespace CatGame
         }
 
 
-        internal int getLane()
-        {
-            return lane;
-        }
-
         internal void takeHit()
         {
             if (lives <= 1)
@@ -139,6 +129,11 @@ namespace CatGame
         public int score { get; set; }
 
         public int lives { get; set; }
-        
+
+
+        internal float getLane()
+        {
+            return currentPos;
+        }
     }
 }
