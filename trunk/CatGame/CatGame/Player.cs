@@ -9,27 +9,26 @@ namespace CatGame
 {
     class Player
     {
-        protected int lane;
-        Model avatar;
+        private int lane = 3;
+        private int playerNumber;
+        private Model avatar;
 
-        public Player(Model avatar){
+        public Player(Model avatar, int playerNumber){
             this.avatar = avatar;
-        }
+            lane = 3;
+            this.playerNumber = playerNumber;
 
-        public Player(int number)
-        {
-            lane = 0;
         }
 
         public void moveLeft()
         {
-            if (lane >= -2)
+            if (lane >= 1)
                 lane--;
         }
 
         public void moveRight()
         {
-            if (lane <= 2)
+            if (lane <= 5)
                 lane++;
         }
 
