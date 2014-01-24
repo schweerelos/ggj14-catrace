@@ -66,7 +66,7 @@ namespace CatGame
             float deltaPos = delta * speed;
 
             currentPos = direction > 0 ? Math.Min(currentPos + deltaPos, targetPos) : Math.Max(currentPos - deltaPos, targetPos);
-            
+            world = Matrix.CreateTranslation(new Vector3(currentPos, 0, 0));
         }
 
         private void updateInputs()
