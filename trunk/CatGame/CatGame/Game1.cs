@@ -110,6 +110,11 @@ namespace CatGame
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
               //  this.Exit();
 
+            foreach (Obstacle o in obstacles)
+            {
+                o.progress(delta * 10);
+            }
+
             // Update the obstacles
             elapsedSinceLastObstacle += gameTime.ElapsedGameTime.TotalMilliseconds;
             if (elapsedSinceLastObstacle >= newObstacleThreshold)
