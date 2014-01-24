@@ -23,6 +23,7 @@ namespace CatGame
         KeyboardState oldState = Keyboard.GetState();
         const int numPlayers = 1;
         Player[] players = new Player[numPlayers];
+        List<Obstacle> obstacles = new List<Obstacle>();
 
         public Game1()
         {
