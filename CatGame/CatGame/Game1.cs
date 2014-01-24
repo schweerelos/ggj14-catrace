@@ -23,7 +23,11 @@ namespace CatGame
         KeyboardState oldState = Keyboard.GetState();
         const int numPlayers = 1;
         Player[] players = new Player[numPlayers];
+        const double newObstacleThreshold = 1900;
+        private double elapsedSinceLastObstacle;
         List<Obstacle> obstacles = new List<Obstacle>();
+
+        Random randomSource = new Random();
 
         public Game1()
         {
@@ -106,8 +110,18 @@ namespace CatGame
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
               //  this.Exit();
 
+            // Update the obstacles
+            elapsedSinceLastObstacle += gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (elapsedSinceLastObstacle >= newObstacleThreshold)
+            {
+                // make a new obstacle
+                obstacles.Add(new Obstacle(cube, randomSource.Next(0,6)));
+                elapsedSinceLastObstacle = 0;
+            }
+
             // TODO: Add your update logic here
             ramp.Update(delta);
+            
 
             base.Update(gameTime);
         }
@@ -127,6 +141,11 @@ namespace CatGame
             Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 4f / 3f, 1, 1000);
 
             ramp.Draw(view, projection);
+
+            foreach (Obstacle o in obstacles)
+            {
+                o.draw(view, projection);
+            }
 
             foreach (Player p in players) {
                 p.draw(world,view,projection);
