@@ -58,7 +58,7 @@ namespace CatGame
         {
             // TODO take size into account
             Matrix world = Matrix.Identity;
-            world *= Matrix.CreateTranslation(lane, 0, 0);
+            world *= Matrix.CreateTranslation(lane, 0, distanceTravelled);
             avatar.Draw(world, view, projection);
         }
     }
