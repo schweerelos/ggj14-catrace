@@ -12,7 +12,7 @@ namespace CatGame
     class IntroScreen
     {
 
-        public enum IntroState { HELP, REGISTERING };
+        public enum IntroState { HELP, CREDITS, REGISTERING};
 
         Game1 gameEngine;
         GamePadState[] oldGamePadStates = new GamePadState[4];
@@ -20,6 +20,7 @@ namespace CatGame
         IntroState state;
         List <Player> players;
         Texture2D splash;
+        Texture2D credits;
 
         
         public IntroScreen(Game1 gameEngine)
@@ -39,6 +40,7 @@ namespace CatGame
         {
 
             splash = content.Load<Texture2D>("splash");
+            credits = content.Load<Texture2D>("credits");
         }
 
 
@@ -52,6 +54,10 @@ namespace CatGame
                     
                     Rectangle splashRect = new Rectangle(0, 0, 1680, 1024);
                     spriteBatch.Draw(splash, splashRect, Color.White);
+                    break;
+                case IntroState.CREDITS:
+                    Rectangle creditsRect = new Rectangle(0, 0, 1680, 1024);
+                    spriteBatch.Draw(credits, creditsRect, Color.White);
                     break;
                 case IntroState.REGISTERING:
                     Vector2 headingV = new Vector2(650,400);
@@ -79,8 +85,42 @@ namespace CatGame
             KeyboardState newKeyboardState = Keyboard.GetState();
             switch (state)
             {
+                case IntroState.CREDITS:
+                    if ((newKeyboardState.IsKeyDown(Keys.C) && !oldKeyboardState.IsKeyDown(Keys.C)) )
+                    {
+                        state = IntroState.HELP;
+                    }
+                    
+                    for (int i = 0; i < 4; i++)
+                    {
+                        GamePadState newGamePadState = GamePad.GetState((PlayerIndex)i);
+                        if (newGamePadState.IsConnected && newGamePadState.Buttons.Back == ButtonState.Pressed &&
+                            oldGamePadStates[i].Buttons.Back == ButtonState.Released)
+                        {
+                            state = IntroState.HELP;
+                        }
+                        oldGamePadStates[i] = newGamePadState;
+                    }
+                    break;
                 case (IntroState.HELP):
                     
+                    if ((newKeyboardState.IsKeyDown(Keys.C) && !oldKeyboardState.IsKeyDown(Keys.C)) )
+                    {
+                        state = IntroState.CREDITS;
+                    }
+                    
+                    for (int i = 0; i < 4; i++)
+                    {
+                        GamePadState newGamePadState = GamePad.GetState((PlayerIndex)i);
+                        if (newGamePadState.IsConnected && newGamePadState.Buttons.Back == ButtonState.Pressed &&
+                            oldGamePadStates[i].Buttons.Back == ButtonState.Released)
+                        {
+                            state = IntroState.CREDITS;
+                        }
+                        oldGamePadStates[i] = newGamePadState;
+                    }
+
+
                     if ((newKeyboardState.IsKeyDown(Keys.Space) && !oldKeyboardState.IsKeyDown(Keys.Space)) ||
                         (newKeyboardState.IsKeyDown(Keys.Enter) && !oldKeyboardState.IsKeyDown(Keys.Enter)) )
                     {
