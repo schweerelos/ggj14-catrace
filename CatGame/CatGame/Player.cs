@@ -144,7 +144,7 @@ namespace CatGame
                 {
                     this.activeBonus--;
                     if (activeBonus < 0)
-                        activeBonus = Player.Bonus.SCALE_DOWN;
+                        activeBonus = Player.Bonus.MOVE_RIGHT;
                 }
 
                 
