@@ -151,15 +151,15 @@ namespace CatGame
             }
 
             scaleFactor = 1;
-            if (usingFinalState)
-            {
+            //if (usingFinalState)
+            //{
                 scaleFactor = newScaleFactor;
                 elapsedTransform = MathHelper.Clamp(elapsedTransform + delta, 0, TRANSFORM_TIME);
-            }
+            //}
             float lerpScaleFactor = MathHelper.Lerp(1, scaleFactor, elapsedTransform / TRANSFORM_TIME);
             world = Matrix.Identity;
             world = Matrix.CreateScale(lerpScaleFactor, lerpScaleFactor, 1);
-            world *= Matrix.CreateTranslation(MathHelper.Lerp(initialLane, lane, elapsedTransform/TRANSFORM_TIME),0, distanceTravelled);
+            world *= Matrix.CreateTranslation(lane, 0, distanceTravelled);
         }
 
         internal bool covers(float queryLane)
