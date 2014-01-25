@@ -20,7 +20,7 @@ namespace CatGame
         SpriteBatch spriteBatch;
         Ramp ramp;
         KeyboardState oldState = Keyboard.GetState();
-        const int numPlayers = 4;
+        const int numPlayers = 2;
         Player[] players;
         const double newObstacleThreshold = 1500;
         private double elapsedSinceLastObstacle;
@@ -30,6 +30,7 @@ namespace CatGame
         private int BONUS_WHEEL = 128;
         Texture2D bonusWheel;
         private int HEART_SIZE = 32;
+        public static String[] CAT_NAMES = { "kitty", "tongue", "pirate", "grumpy" };
         private Texture2D heart;
         private Texture2D galaxy;
         private Viewport[] viewports;
@@ -48,7 +49,7 @@ namespace CatGame
             players = new Player[numPlayers];
             for (int i = 0; i < numPlayers; i++)
             {
-                players[i] = new Player((PlayerIndex) i-1 , i == 0, this);
+                players[i] = new Player((PlayerIndex) i-1 , i == 0, this, CAT_NAMES[i]);
             }
         }
 
