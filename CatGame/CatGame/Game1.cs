@@ -117,30 +117,34 @@ namespace CatGame
             foreach (Obstacle o in obstacles)
             {
                 o.Update(delta);
-                if (o.hasReached(3))
+                if (o.hasReached(0))
                 {
-                    foreach (Player p in players)
+                    if (!o.collisionTested)
                     {
-                        // TODO figure out if player is jumping
-                        if (o.covers(p.getLane()))
+                        foreach (Player p in players)
                         {
-                            try
+                            // TODO figure out if player is jumping
+                            if (isCollision(o, p))
                             {
-                                p.takeHit();
+                                try
+                                {
+                                    p.takeHit();
+                                }
+                                catch (OutOfLivesException oole)
+                                {
+                                    Console.WriteLine("Player dead");
+                                    this.Exit();
+                                }
                             }
-                            catch (OutOfLivesException oole)
+                            else
                             {
-                                Console.WriteLine("Player dead");
-                                this.Exit();
+                                p.incrementSurvivedObstacles();
                             }
                         }
-                        else
-                        {
-                            p.incrementSurvivedObstacles();
-                        }
+                        o.collisionTested = true;
                     }
                 }
-                else
+                if (!o.hasReached(3))
                 {
                     // Next round will only have those obstacles that aren't at the bottom yet
                     obstaclesCopy.Add(o);
@@ -152,7 +156,7 @@ namespace CatGame
             elapsedSinceLastObstacle += gameTime.ElapsedGameTime.TotalMilliseconds;
             if (elapsedSinceLastObstacle + (randomSource.NextDouble() * 800) >= newObstacleThreshold)
             {
-                obstacles.Add(new Obstacle(randomSource.Next(0,6)));
+                obstacles.Add(new Obstacle(randomSource.Next(0,7)));
                 elapsedSinceLastObstacle = 0;
             }
 
@@ -161,6 +165,14 @@ namespace CatGame
             
 
             base.Update(gameTime);
+        }
+                
+        private bool isCollision(Obstacle o, Player p)
+        {
+            BoundingBox obstacleBounds = new BoundingBox(Vector3.Transform(new Vector3(0, 0, 0), o.world), Vector3.Transform(new Vector3(0.9f, 0.9f, 0.9f), o.world));
+            BoundingBox playerBounds = new BoundingBox(Vector3.Transform(new Vector3(0, 0, 0), p.world), Vector3.Transform(new Vector3(0.9f, 0.9f, 0.9f), p.world));
+
+            return (obstacleBounds.Intersects(playerBounds));
         }
 
         /// <summary>
