@@ -221,9 +221,9 @@ namespace CatGame
 
                 // Draw bonus wheel
                 Player.Bonus selectedBonus = players[i].getBonus();
-                float rotation = (int) selectedBonus / (float) Player.Bonus.LAST;
-                Rectangle bonusRect = new Rectangle(x, y + Player.AVATAR_SIZE + 10, BONUS_WHEEL, BONUS_WHEEL);
-                spriteBatch.Draw(bonusWheel, bonusRect, null, Color.White, rotation, Vector2.Zero, SpriteEffects.None, 0);
+                float rotation = (float) (((int) selectedBonus / (float) Player.Bonus.LAST) * Math.PI*2);
+                Rectangle bonusRect = new Rectangle(x + BONUS_WHEEL/2, y + Player.AVATAR_SIZE + 10 + BONUS_WHEEL/2, BONUS_WHEEL, BONUS_WHEEL);
+                spriteBatch.Draw(bonusWheel, bonusRect, null, Color.White, rotation, new Vector2(BONUS_WHEEL/2), SpriteEffects.None, 0);
             }
         }
 

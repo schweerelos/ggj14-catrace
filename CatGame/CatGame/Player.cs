@@ -21,12 +21,14 @@ namespace CatGame
         private Vector3 startingPos;
         private Vector3 targetPos;
         private Game1 gameEngine;
+        private int bounce;
 
         private float speed = 5f;
         
         private float yAccel = 0;
         private const float gravity = 20.82f;
         private const float jumpAccel = 9.82f;
+        private float[] bounceAccel = new float[4]{1,2,4,6};
         
         public const int AVATAR_SIZE = 128;
         private Texture2D texture;
@@ -37,6 +39,7 @@ namespace CatGame
             targetPos = startingPos;
             lives = 9;
             score = 0;
+
             this.playerIndex = playerIndex;
             this.usesKeyboard = usesKeyboard;
             this.gameEngine = gameEngine;
@@ -72,8 +75,11 @@ namespace CatGame
 
         public void jump()
         {
-            if(yAccel <= 0)
+            if (currentPos.Y <= 0)
+            {
                 yAccel = jumpAccel;
+                bounce = 2;
+            }
         }
 
         public void barf()
@@ -99,6 +105,12 @@ namespace CatGame
             currentPos.Y = Math.Max(0, currentPos.Y + delta * yAccel);
             yAccel = yAccel - gravity * delta;
 
+            if (bounce >= 0 && currentPos.Y <= 0)
+            {
+                yAccel = bounceAccel[bounce];
+                bounce--;
+            }
+
             world = Matrix.CreateTranslation(currentPos);
         }
 
@@ -116,6 +128,22 @@ namespace CatGame
                     this.jump();
                 if (newState.IsKeyDown(Keys.LeftControl) && !oldKeyboardState.IsKeyDown(Keys.LeftControl))
                     this.barf();
+                if (newState.IsKeyDown(Keys.RightControl) && !oldKeyboardState.IsKeyDown(Keys.RightControl))
+                    this.barf();
+                if (newState.IsKeyDown(Keys.D) && !oldKeyboardState.IsKeyDown(Keys.D))
+                {
+                    this.activeBonus++;
+                    if (activeBonus == Player.Bonus.LAST)
+                        activeBonus = Player.Bonus.SCALE_UP;
+                }
+                if (newState.IsKeyDown(Keys.A) && !oldKeyboardState.IsKeyDown(Keys.A))
+                {
+                    this.activeBonus--;
+                    if (activeBonus == Player.Bonus.LAST)
+                        activeBonus = Player.Bonus.SCALE_UP;
+                }
+
+                
                 oldKeyboardState = newState;
             }
             else
