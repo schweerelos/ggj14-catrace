@@ -308,16 +308,16 @@ namespace CatGame
             switch (player.getActiveBonus())
             {
                 case Player.Bonus.SCALE_UP:
-                    ob.increaseSize();
+                    ob.increaseSize(player);
                     break;
                 case Player.Bonus.SCALE_DOWN:
-                    ob.decreaseSize();
+                    ob.decreaseSize(player);
                     break;
                 case Player.Bonus.MOVE_LEFT:
-                    ob.moveLeft();
+                    ob.moveLeft(player);
                     break;
                 case Player.Bonus.MOVE_RIGHT:
-                    ob.moveRight();
+                    ob.moveRight(player);
                     break;
                 default:
                     Console.WriteLine("Barf fallthrough, player bonus state is wrong");
