@@ -48,7 +48,7 @@ namespace CatGame
             players = new Player[numPlayers];
             for (int i = 0; i < numPlayers; i++)
             {
-                players[i] = new Player(PlayerIndex.One, true,this);
+                players[i] = new Player((PlayerIndex) i-1 , i == 0, this);
             }
         }
 
