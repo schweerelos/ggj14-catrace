@@ -22,6 +22,7 @@ namespace CatGame
             size = 0; // "normal" size initially
             distanceTravelled = -100;
             world = Matrix.CreateTranslation(lane, 0, distanceTravelled);
+            this.collisionTested = false;
         }
 
         public override void LoadContent(ContentManager content)
@@ -106,5 +107,8 @@ namespace CatGame
                     effect.EnableDefaultLighting();
                 }
         }
+
+        public bool collisionTested { get; set; }
+
     }
 }
