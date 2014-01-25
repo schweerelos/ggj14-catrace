@@ -161,6 +161,10 @@ namespace CatGame
                         o.collisionTested = true;
                     }
                 }
+                else if (o.hasReached(-15))
+                {
+                    o.usingFinalState = true;
+                }
                 if (!o.hasReached(3))
                 {
                     // Next round will only have those obstacles that aren't at the bottom yet
