@@ -12,7 +12,7 @@ namespace CatGame
     {
         private int lane;
         private int size; // -1 = small; 0 = normal; 1 = big; 2 = huge
-        private float distanceTravelled;
+        public float distanceTravelled;
         private static Model cubeModel;
 
         public Obstacle(int lane) : base("cube")
@@ -80,18 +80,19 @@ namespace CatGame
             world = Matrix.CreateTranslation(lane, 0, distanceTravelled);
         }
 
-        internal bool covers(float queryLane, bool isJumping)
+        internal bool covers(float queryLane)
         {
+            int qLane = (int) Math.Round(queryLane);
             switch (size)
             {
                 case -1:
-                    return queryLane == lane && !isJumping;
+                    return qLane == lane;
                 case 0:
-                    return queryLane == lane;
+                    return qLane == lane;
                 case 1:
-                    return Math.Abs(lane - queryLane) <= 1;
+                    return Math.Abs(lane - qLane) <= 1;
                 case 2:
-                    return Math.Abs(lane - queryLane) <= 2;
+                    return Math.Abs(lane - qLane) <= 2;
             }
             return false;
         }

@@ -20,15 +20,18 @@ namespace CatGame
         private Vector3 currentPos;
         private Vector3 startingPos;
         private Vector3 targetPos;
+        private Game1 gameEngine;
+
         private float speed = 5f;
+        
         private float yAccel = 0;
         private const float gravity = 20.82f;
         private const float jumpAccel = 9.82f;
-
+        
         public const int AVATAR_SIZE = 128;
         private Texture2D texture;
 
-        public Player(PlayerIndex playerIndex, bool usesKeyboard) : base("cube") {
+        public Player(PlayerIndex playerIndex, bool usesKeyboard, Game1 gameEngine) : base("cube") {
 
             startingPos = new Vector3(3,0,0);
             targetPos = startingPos;
@@ -36,6 +39,7 @@ namespace CatGame
             score = 0;
             this.playerIndex = playerIndex;
             this.usesKeyboard = usesKeyboard;
+            this.gameEngine = gameEngine;
 
             if (this.usesKeyboard)
                 oldKeyboardState = Keyboard.GetState();
@@ -72,6 +76,11 @@ namespace CatGame
                 yAccel = jumpAccel;
         }
 
+        public void barf()
+        {
+            gameEngine.playerBarfsBonus(this);
+        }
+
         public bool usesKeyboard { get; set; }
 
         public void update(GameTime gameTime)
@@ -105,6 +114,8 @@ namespace CatGame
                     this.moveRight();
                 if (newState.IsKeyDown(Keys.Space) && !oldKeyboardState.IsKeyDown(Keys.Space))
                     this.jump();
+                if (newState.IsKeyDown(Keys.LeftControl) && !oldKeyboardState.IsKeyDown(Keys.LeftControl))
+                    this.barf();
                 oldKeyboardState = newState;
             }
             else
