@@ -198,5 +198,10 @@ namespace CatGame
         {
             return activeBonus;
         }
+        public Player.Bonus getActiveBonus()
+        {
+            return activeBonus;
+        }
     }
+
 }

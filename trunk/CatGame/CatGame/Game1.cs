@@ -249,10 +249,32 @@ namespace CatGame
                     candidates.Add(o);
                 }
             }
+            if (candidates.Count() == 0)
+                return;
+
             candidates.Sort((a, b) => a.distanceTravelled.CompareTo(b.distanceTravelled));
+            
             Obstacle ob = candidates.Last();
             Console.WriteLine("Barf " + ob.distanceTravelled);
-            ob.increaseSize();
+            switch (player.getActiveBonus())
+            {
+                case Player.Bonus.SCALE_UP:
+                    ob.increaseSize();
+                    break;
+                case Player.Bonus.SCALE_DOWN:
+                    ob.decreaseSize();
+                    break;
+                case Player.Bonus.MOVE_LEFT:
+                    ob.moveLeft();
+                    break;
+                case Player.Bonus.MOVE_RIGHT:
+                    ob.moveRight();
+                    break;
+                default:
+                    Console.WriteLine("Barf fallthrough, player bonus state is wrong");
+                    break;
+            }
+            
         }
     }
 }
