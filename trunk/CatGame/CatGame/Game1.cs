@@ -47,6 +47,8 @@ namespace CatGame
         List<Player> deadPlayers;
         VictoryScreen winnerScreen;
 
+        SoundEffect musicEffect;
+        Song music;
         SpriteFont scoreFont;
 
         public Game1()
@@ -100,6 +102,9 @@ namespace CatGame
             nyan = Content.Load<Texture2D>("rainbow-kiwi");
             scoreFont = Content.Load<SpriteFont>("catfont");
             intro.LoadContent(Content);
+
+            music = Content.Load<Song>("ForAGIng");
+            //music = musicEffect.CreateInstance();
         }
 
         /// <summary>
@@ -184,6 +189,8 @@ namespace CatGame
                                                 }
                                             }
                                             winnerScreen = new VictoryScreen(this, pNo+1);
+                                            MediaPlayer.Stop();
+                                            
                                             activeState = State.WINNER;
 
                                         }
@@ -430,6 +437,9 @@ namespace CatGame
             if (players.Count() == 1)
                 viewports[0] = defaultViewport;
 
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(music);
+            
             activeState = State.RUNNING;
         }
 
