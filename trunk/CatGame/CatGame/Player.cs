@@ -14,17 +14,20 @@ namespace CatGame
         private PlayerIndex playerIndex;
         KeyboardState oldKeyboardState;
         GamePadState oldGamePadState;
-        float currentPos;
-        private float startingPos;
-        private float targetPos;
-        private float speed = 2f;
-        
+        private Vector3 currentPos;
+        private Vector3 startingPos;
+        private Vector3 targetPos;
+        private float speed = 5f;
+        private float yAccel = 0;
+        private const float gravity = 20.82f;
+        private const float jumpAccel = 9.82f;
+
         public const int AVATAR_SIZE = 128;
         private Texture2D texture;
 
         public Player(PlayerIndex playerIndex, bool usesKeyboard) : base("cube") {
 
-            startingPos = 3;
+            startingPos = new Vector3(3,0,0);
             targetPos = startingPos;
             lives = 9;
             score = 0;
@@ -41,8 +44,8 @@ namespace CatGame
         {
             startingPos = currentPos;
 
-            if (targetPos >= 1)
-                targetPos--;
+            if (targetPos.X >= 1)
+                targetPos.X--;
             
         }
 
@@ -50,8 +53,14 @@ namespace CatGame
         {
             startingPos = currentPos;
 
-            if (targetPos <= 5)
-                targetPos++;
+            if (targetPos.X <= 5)
+                targetPos.X++;
+        }
+
+        public void jump()
+        {
+            if(yAccel <= 0)
+                yAccel = jumpAccel;
         }
 
         public bool usesKeyboard { get; set; }
@@ -62,11 +71,17 @@ namespace CatGame
 
             float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
                         
-            float direction = Math.Sign(targetPos - startingPos);
+            // X position
+            float direction = Math.Sign(targetPos.X - startingPos.X);
             float deltaPos = delta * speed;
 
-            currentPos = direction > 0 ? Math.Min(currentPos + deltaPos, targetPos) : Math.Max(currentPos - deltaPos, targetPos);
-            world = Matrix.CreateTranslation(new Vector3(currentPos, 0, 0));
+            currentPos.X = direction > 0 ? Math.Min(currentPos.X + deltaPos, targetPos.X) : Math.Max(currentPos.X - deltaPos, targetPos.X);
+
+            // Y position
+            currentPos.Y = Math.Max(0, currentPos.Y + delta * yAccel);
+            yAccel = yAccel - gravity * delta;
+
+            world = Matrix.CreateTranslation(currentPos);
         }
 
         private void updateInputs()
@@ -77,10 +92,10 @@ namespace CatGame
                 KeyboardState newState = Keyboard.GetState();
                 if (newState.IsKeyDown(Keys.Left) && !oldKeyboardState.IsKeyDown(Keys.Left))
                     this.moveLeft();
-
-
                 if (newState.IsKeyDown(Keys.Right) && !oldKeyboardState.IsKeyDown(Keys.Right))
                     this.moveRight();
+                if (newState.IsKeyDown(Keys.Space) && !oldKeyboardState.IsKeyDown(Keys.Space))
+                    this.jump();
                 oldKeyboardState = newState;
             }
             else
@@ -128,7 +143,9 @@ namespace CatGame
 
         internal float getLane()
         {
-            return currentPos;
+            return currentPos.X;
         }
+
+        
     }
 }
