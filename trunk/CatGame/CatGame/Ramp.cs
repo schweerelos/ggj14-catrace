@@ -21,6 +21,7 @@ namespace CatGame
         public override void Update(float delta)
         {
             // Cycle the texture
+            world = Matrix.CreateTranslation(3, -1, 5);
             textureCycle += delta;
         }
 
