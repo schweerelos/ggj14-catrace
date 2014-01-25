@@ -59,9 +59,9 @@ namespace CatGame
             effect.DirectionalLight0.SpecularColor = Color.White.ToVector3();
             effect.DirectionalLight1.Enabled = false;
             effect.DirectionalLight2.Enabled = false;
-            effect.SpecularPower = 10000;
-            effect.SpecularColor = Vector3.One;
-            effect.AmbientLightColor = Color.LightGray.ToVector3();
+            effect.SpecularPower = 10;
+            effect.SpecularColor = lighting.GetColor();
+            effect.AmbientLightColor = Color.DarkGray.ToVector3();
         }
         
     }

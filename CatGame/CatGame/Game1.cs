@@ -171,7 +171,7 @@ namespace CatGame
                     {
                         foreach (Player p in players)
                         {
-                            if (isCollision(o, p))
+                            if (isCollision(o, p) && o.GetScale() >= 1)
                             {                               
                                     p.takeHit();
                                     if (p.dead == true)
@@ -239,7 +239,7 @@ namespace CatGame
         private bool isCollision(Obstacle o, Player p)
         {
             BoundingBox obstacleBounds = o.getBoundingBox();
-            BoundingBox playerBounds = new BoundingBox(Vector3.Transform(new Vector3(0, 0, 0), p.world), Vector3.Transform(new Vector3(0.9f, 0.9f, 0.9f), p.world));
+            BoundingBox playerBounds = new BoundingBox(Vector3.Transform(new Vector3(-.5f, -.5f, -.5f), p.world), Vector3.Transform(new Vector3(.5f, .5f, .5f), p.world));
 
             return (obstacleBounds.Intersects(playerBounds));
         }

@@ -25,19 +25,14 @@ namespace CatGame
             textureCycle += delta;
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void SetEffect(Matrix view, Matrix projection, RainbowLighting lighting, BasicEffect effect, Player activePlayer, GameTime gameTime)
         {
-            base.LoadContent(content);
-            foreach (ModelMesh mesh in model.Meshes)
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.DirectionalLight0.Enabled = true;
-                    effect.DirectionalLight0.Direction = Vector3.Down;
-                    effect.DirectionalLight1.Enabled = false;
-                    effect.DirectionalLight2.Enabled = false;
-                    effect.AmbientLightColor = Color.White.ToVector3();
-                    effect.LightingEnabled = true;
-                }
+            base.SetEffect(view, projection, lighting, effect, activePlayer, gameTime);
+            effect.DirectionalLight0.Enabled = true;
+            effect.DirectionalLight0.Direction = Vector3.Down;
+            //effect.DirectionalLight0.DiffuseColor = Vector3.One;
+            effect.SpecularColor = Vector3.Zero;
+            effect.AmbientLightColor = Vector3.One;
         }
     }
 }
