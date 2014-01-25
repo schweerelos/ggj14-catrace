@@ -13,6 +13,7 @@ namespace CatGame
     {
         public enum Bonus { SCALE_UP, MOVE_LEFT, SCALE_DOWN, MOVE_RIGHT, LAST };
         Bonus activeBonus = Bonus.SCALE_UP;
+        public Bonus prevBonus = Bonus.SCALE_UP;
 
         private PlayerIndex playerIndex;
         KeyboardState oldKeyboardState;
@@ -36,6 +37,7 @@ namespace CatGame
         private bool p;
         private Game1 game1;
         private string p_2;
+        private float turnTime = 0;
 
         public Player(PlayerIndex playerIndex, bool usesKeyboard, Game1 gameEngine, String textureFile) : base("cube") {
 
@@ -182,6 +184,7 @@ namespace CatGame
             this.activeBonus--;
             if (activeBonus < 0)
                 activeBonus = Player.Bonus.MOVE_RIGHT;
+            turnTime += MathHelper.TwoPi / (int)Player.Bonus.LAST;
         }
 
         private void rotateActionsLeft()
@@ -189,6 +192,7 @@ namespace CatGame
             this.activeBonus++;
             if (activeBonus == Player.Bonus.LAST)
                 activeBonus = Player.Bonus.SCALE_UP;
+            turnTime -= MathHelper.TwoPi / (int)Player.Bonus.LAST;
         }
 
         internal Texture2D GetTexture()
@@ -224,13 +228,14 @@ namespace CatGame
             return currentPos.X;
         }
 
-        internal Bonus getBonus()
-        {
-            return activeBonus;
-        }
         public Player.Bonus getActiveBonus()
         {
             return activeBonus;
+        }
+
+        internal float getBonusRotation()
+        {
+            return -1;
         }
     }
 
