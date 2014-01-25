@@ -204,7 +204,7 @@ namespace CatGame
         {
             if (lives <= 1)
             {
-                throw new OutOfLivesException();
+                this.dead = true;
             }
             lives--;
             Console.WriteLine("Lives: " + lives);
@@ -237,6 +237,10 @@ namespace CatGame
         {
             return -1;
         }
+
+        public bool dead { get; set; }
+
+       
     }
 
 }
