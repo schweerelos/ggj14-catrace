@@ -186,7 +186,7 @@ namespace CatGame
                 
         private bool isCollision(Obstacle o, Player p)
         {
-            BoundingBox obstacleBounds = new BoundingBox(Vector3.Transform(new Vector3(0, 0, 0), o.world), Vector3.Transform(new Vector3(0.9f, 0.9f, 0.9f), o.world));
+            BoundingBox obstacleBounds = o.getBoundingBox();
             BoundingBox playerBounds = new BoundingBox(Vector3.Transform(new Vector3(0, 0, 0), p.world), Vector3.Transform(new Vector3(0.9f, 0.9f, 0.9f), p.world));
 
             return (obstacleBounds.Intersects(playerBounds));
