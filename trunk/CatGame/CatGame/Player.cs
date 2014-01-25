@@ -119,6 +119,11 @@ namespace CatGame
                 bounce--;
             }
 
+            if (turnTime > 0)
+                turnTime = MathHelper.Clamp(turnTime - delta / 0.1f, 0, 4);
+            if (turnTime < 0)
+                turnTime = MathHelper.Clamp(turnTime + delta / 0.1f, -4, 0);
+
             world = Matrix.CreateTranslation(currentPos);
         }
 
@@ -235,7 +240,7 @@ namespace CatGame
 
         internal float getBonusRotation()
         {
-            return -1;
+            return (float)(((int)activeBonus / (float)Player.Bonus.LAST) * Math.PI * 2) + turnTime;
         }
 
         public bool dead { get; set; }
