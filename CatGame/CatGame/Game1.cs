@@ -175,7 +175,8 @@ namespace CatGame
             {
                 obstacles.Add(new Obstacle(randomSource.Next(0,7)));
                 elapsedSinceLastObstacle = 0;
-                newObstacleThreshold *= 0.995;
+                if (newObstacleThreshold > 700)
+                    newObstacleThreshold *= 0.995;
                 //Console.WriteLine("obstacle threshold: " + newObstacleThreshold);
             }
 
