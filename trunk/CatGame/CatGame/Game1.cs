@@ -208,12 +208,13 @@ namespace CatGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.Black);
             switch (activeState)
             {
                 case State.INTRO:
                     GraphicsDevice.Viewport = defaultViewport;
 
-                    intro.Draw(gameTime,spriteBatch);
+                    intro.Draw(gameTime,spriteBatch, scoreFont);
 
                     GraphicsDevice.BlendState = BlendState.Opaque;
                     GraphicsDevice.DepthStencilState = DepthStencilState.Default;
@@ -231,7 +232,7 @@ namespace CatGame
         private void drawRunning(GameTime gameTime)
         {
 
-            GraphicsDevice.Clear(Color.Black);
+            
             float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
             // Draw each viewport

@@ -44,14 +44,34 @@ namespace CatGame
 
 
 
-        public void Draw(GameTime gameTime,SpriteBatch spriteBatch)
+        public void Draw(GameTime gameTime,SpriteBatch spriteBatch, SpriteFont spriteFont)
         {
-       
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
-            Rectangle splashRect = new Rectangle(0, 0, 1680, 1024);
-            spriteBatch.Draw(splash, splashRect, Color.White);
+            switch (state)
+            {
+                case IntroState.HELP:
+                    
+                    Rectangle splashRect = new Rectangle(0, 0, 1680, 1024);
+                    spriteBatch.Draw(splash, splashRect, Color.White);
+                    break;
+                case IntroState.REGISTERING:
+                    Vector2 headingV = new Vector2(650,400);
 
+                    List<Vector2> textPoss = new List<Vector2>();
+                    textPoss.Add(new Vector2(10, 10));
+                    textPoss.Add(new Vector2(1680 / 2 + 10, 10));
+                    textPoss.Add(new Vector2(10, 1024 / 2 + 10));
+                    textPoss.Add(new Vector2(1680 / 2 + 10, 1024 / 2 + 10));
+
+                    spriteBatch.DrawString(spriteFont, "Registering new Players" + (players.Count > 0 ? "\nPress Start/Space/Enter to start the game":""), headingV, Color.White);
+
+                    for (int i = 0; i < players.Count(); i++)
+                        spriteBatch.DrawString(spriteFont, "Player " + (i+1) + " registered!", textPoss[i], Color.White);
+                        
+                    break;
+            }
             spriteBatch.End();
+
         }
 
 
