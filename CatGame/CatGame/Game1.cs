@@ -30,7 +30,7 @@ namespace CatGame
         private int BONUS_WHEEL = 128;
         Texture2D bonusWheel;
         private int HEART_SIZE = 32;
-        public static String[] CAT_NAMES = { "kitty", "tongue", "pirate", "grumpy" };
+        public static String[] CAT_NAMES = { "grumpy", "tongue", "pirate", "kitty" };
         private Texture2D heart;
         private Texture2D galaxy;
         private Texture2D cross;
