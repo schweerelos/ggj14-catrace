@@ -44,7 +44,7 @@ namespace CatGame
             ramp = new Ramp();
             for (int i = 0; i < numPlayers; i++)
             {
-                players[i] = new Player(PlayerIndex.One, true);
+                players[i] = new Player(PlayerIndex.One, true,this);
             }
         }
 
@@ -122,7 +122,7 @@ namespace CatGame
                     foreach (Player p in players)
                     {
                         // TODO figure out if player is jumping
-                        if (o.covers(p.getLane(), false))
+                        if (o.covers(p.getLane()))
                         {
                             try
                             {
@@ -225,6 +225,22 @@ namespace CatGame
                 Rectangle bonusRect = new Rectangle(x, y + Player.AVATAR_SIZE + 10, BONUS_WHEEL, BONUS_WHEEL);
                 spriteBatch.Draw(bonusWheel, bonusRect, null, Color.White, rotation, Vector2.Zero, SpriteEffects.None, 0);
             }
+        }
+
+        internal void playerBarfsBonus(Player player)
+        {
+            List<Obstacle> candidates = new List<Obstacle>();
+            foreach (Obstacle o in obstacles)
+            {
+                if (o.covers(player.getLane()))
+                {
+                    candidates.Add(o);
+                }
+            }
+            candidates.Sort((a, b) => a.distanceTravelled.CompareTo(b.distanceTravelled));
+            Obstacle ob = candidates.Last();
+            Console.WriteLine("Barf " + ob.distanceTravelled);
+            ob.increaseSize();
         }
     }
 }

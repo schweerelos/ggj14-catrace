@@ -39,5 +39,6 @@ namespace CatGame
         {
             model.Draw(world, view, projection);
         }
+        
     }
 }
