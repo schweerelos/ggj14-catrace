@@ -5,11 +5,14 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace CatGame
 {
     class Player : ThreeDObject
     {
+        public enum Bonus { SCALE_UP, MOVE_RIGHT, SCALE_DOWN, MOVE_LEFT, LAST };
+        Bonus activeBonus = Bonus.SCALE_UP;
 
         private PlayerIndex playerIndex;
         KeyboardState oldKeyboardState;
@@ -38,6 +41,12 @@ namespace CatGame
                 oldKeyboardState = Keyboard.GetState();
             else
                 oldGamePadState = GamePad.GetState(playerIndex);
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
+            texture = content.Load<Texture2D>("grumpy");
         }
 
         public void moveLeft()
@@ -146,6 +155,9 @@ namespace CatGame
             return currentPos.X;
         }
 
-        
+        internal Bonus getBonus()
+        {
+            return activeBonus;
+        }
     }
 }
