@@ -37,6 +37,8 @@ namespace CatGame
         private Viewport[] viewports;
         private Viewport defaultViewport;
 
+        SpriteFont scoreFont;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -98,6 +100,7 @@ namespace CatGame
             heart = Content.Load<Texture2D>("Heart");
             cross = Content.Load<Texture2D>("cross");
             galaxy = Content.Load<Texture2D>("galaxy");
+            scoreFont = Content.Load<SpriteFont>("Miramo");
         }
 
         /// <summary>
@@ -144,10 +147,8 @@ namespace CatGame
                         foreach (Player p in players)
                         {
                             if (isCollision(o, p))
-                            {
-                               
-                                    p.takeHit();
-                                    
+                            {                               
+                                    p.takeHit();                                    
                             }
                             else
                             {
@@ -257,36 +258,35 @@ namespace CatGame
 
         private void DrawGUI(Player p)
         {
-            
-                // Player avatar
-                int x = 10;
-                int y = 10;
-                
-                Rectangle position = new Rectangle(x, y, Player.AVATAR_SIZE, Player.AVATAR_SIZE);
-                spriteBatch.Draw(p.GetTexture(), position, Color.White);
-                
+            // Player avatar
+            int x = 10;
+            int y = 10;
 
-                // Draw hearts
-                for (int j = 0; j < p.lives; j++ )
-                {
-                    Rectangle heartRect = new Rectangle(x + Player.AVATAR_SIZE + 10 + (j % 3) * HEART_SIZE, y + j / 3 * HEART_SIZE, HEART_SIZE, HEART_SIZE);
-                    spriteBatch.Draw(heart, heartRect, Color.White);
-                }
+            Rectangle position = new Rectangle(x, y, Player.AVATAR_SIZE, Player.AVATAR_SIZE);
+            spriteBatch.Draw(p.GetTexture(), position, Color.White);
 
-                // Draw bonus wheel
-                float rotation = p.getBonusRotation();
-                Rectangle bonusRect = new Rectangle(x + BONUS_WHEEL/2, y + Player.AVATAR_SIZE + 10 + BONUS_WHEEL/2, BONUS_WHEEL, BONUS_WHEEL);
-                spriteBatch.Draw(bonusWheel, bonusRect, null, Color.White, rotation, new Vector2(BONUS_WHEEL/2), SpriteEffects.None, 0);
 
-                // Draw cross if player is dead
-                if (p.dead)
-                {
-                    Console.Write("Drawing cross");
+            // Draw hearts
+            for (int j = 0; j < p.lives; j++)
+            {
+                Rectangle heartRect = new Rectangle(x + Player.AVATAR_SIZE + 10 + (j % 3) * HEART_SIZE, y + j / 3 * HEART_SIZE, HEART_SIZE, HEART_SIZE);
+                spriteBatch.Draw(heart, heartRect, Color.White);
+            }
 
-                    Rectangle crossRect = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-                    spriteBatch.Draw(cross, crossRect, Color.White);
-                }
-            
+            // Draw bonus wheel
+            float rotation = p.getBonusRotation();
+            Rectangle bonusRect = new Rectangle(x + BONUS_WHEEL / 2, y + Player.AVATAR_SIZE + 10 + BONUS_WHEEL / 2, BONUS_WHEEL, BONUS_WHEEL);
+            spriteBatch.Draw(bonusWheel, bonusRect, null, Color.White, rotation, new Vector2(BONUS_WHEEL / 2), SpriteEffects.None, 0);
+
+            // Draw score
+            spriteBatch.DrawString(scoreFont, "Score: " + p.score, new Vector2(10, 20 + Player.AVATAR_SIZE + BONUS_WHEEL), Color.White);
+
+            // Draw cross if player is dead
+            if (p.dead)
+            {
+                Rectangle crossRect = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+                spriteBatch.Draw(cross, crossRect, Color.White);
+            }            
         }
 
         internal void playerBarfsBonus(Player player)
