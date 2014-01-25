@@ -19,14 +19,13 @@ namespace CatGame
         private int initialLane;
         private Size size;
         public float distanceTravelled;
-        private static Model twineModel;
         private float scaleFactor;
         private float elapsedTransform;
         private Dictionary<Player, Player.Bonus> playerHasBarfed = new Dictionary<Player, Player.Bonus>();
 
-        public Obstacle(int lane) : base("cube")
+        public Obstacle(int lane) : base("")
         {
-            model = twineModel;
+            filename = "twine";
             this.lane = lane;
             initialLane = lane;
             size = Size.NORMAL;
@@ -35,10 +34,6 @@ namespace CatGame
             this.collisionTested = false;
             this.usingFinalState = false;
             elapsedTransform = 0;
-        }
-
-        public override void LoadContent(ContentManager content)
-        {
         }
 
         public void moveLeft(Player player)
@@ -184,18 +179,18 @@ namespace CatGame
             return false;
         }
 
-        public static void StaticLoadContent(ContentManager content)
+        public override void SetEffect(Matrix view, Matrix projection, RainbowLighting lighting, BasicEffect effect, Player activePlayer, GameTime gameTime)
         {
-            twineModel = content.Load<Model>("twine");
-        }
-
-        public override void SetEffect(Matrix view, Matrix projection, RainbowLighting lighting, BasicEffect effect, Player activePlayer)
-        {
-            // TODO Set effect to be individual to each obstacle.
-            base.SetEffect(view, projection, lighting, effect, activePlayer);
+            base.SetEffect(view, projection, lighting, effect, activePlayer, gameTime);
             if (hasBeenHitByPlayer(activePlayer))
             {
                 effect.EmissiveColor = Player.BONUS_COLORS[(int)playerHasBarfed[activePlayer]].ToVector3();
+                float selectedScale = 1 + (float) (Math.Sin(gameTime.TotalGameTime.TotalMilliseconds / 100) * 0.25);
+                effect.World = Matrix.CreateScale(selectedScale) * effect.World;
+            }
+            else
+            {
+                effect.EmissiveColor = Color.Black.ToVector3();
             }
         }
 

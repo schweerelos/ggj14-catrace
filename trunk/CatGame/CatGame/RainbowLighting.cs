@@ -17,7 +17,9 @@ namespace CatGame
 
         public Vector3 GetDirection()
         {
-            return new Vector3((float) Math.Sin(elapsed), -1, (float)Math.Cos(elapsed));
+            Vector3 initialVector = Vector3.Forward;
+            // TODO Sweeping lighting
+            return new Vector3(0, -1, (float)Math.Cos(elapsed));
         }
 
         public Vector3 GetColor()

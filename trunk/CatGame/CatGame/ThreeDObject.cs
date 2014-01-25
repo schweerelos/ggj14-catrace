@@ -35,19 +35,19 @@ namespace CatGame
 
         }
 
-        public virtual void Draw(float delta, Matrix view, Matrix projection, RainbowLighting lighting, Player activePlayer)
+        public virtual void Draw(GameTime gameTime, Matrix view, Matrix projection, RainbowLighting lighting, Player activePlayer)
         {
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    SetEffect(view, projection, lighting, effect, activePlayer);
+                    SetEffect(view, projection, lighting, effect, activePlayer, gameTime);
                 }
                 mesh.Draw();
             }
         }
 
-        public virtual void SetEffect(Matrix view, Matrix projection, RainbowLighting lighting, BasicEffect effect, Player activePlayer)
+        public virtual void SetEffect(Matrix view, Matrix projection, RainbowLighting lighting, BasicEffect effect, Player activePlayer, GameTime gameTime)
         {
             effect.World = world;
             effect.View = view;
@@ -61,7 +61,7 @@ namespace CatGame
             effect.DirectionalLight2.Enabled = false;
             effect.SpecularPower = 10000;
             effect.SpecularColor = Vector3.One;
-            effect.AmbientLightColor = Vector3.Zero;
+            effect.AmbientLightColor = Color.LightGray.ToVector3();
         }
         
     }

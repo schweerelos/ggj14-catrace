@@ -88,7 +88,6 @@ namespace CatGame
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             ramp.LoadContent(Content);
-            Obstacle.StaticLoadContent(Content);
             
             bonusWheel = Content.Load<Texture2D>("BonusWheel");
             heart = Content.Load<Texture2D>("Heart");
@@ -187,7 +186,9 @@ namespace CatGame
             elapsedSinceLastObstacle += gameTime.ElapsedGameTime.TotalMilliseconds;
             if (elapsedSinceLastObstacle + (randomSource.NextDouble() * 800) >= newObstacleThreshold)
             {
-                obstacles.Add(new Obstacle(randomSource.Next(0, 7)));
+                Obstacle newObst = new Obstacle(randomSource.Next(0, 7));
+                newObst.LoadContent(Content);
+                obstacles.Add(newObst);
                 elapsedSinceLastObstacle = 0;
                 if (newObstacleThreshold > 900)
                     newObstacleThreshold *= 0.995;
@@ -238,13 +239,10 @@ namespace CatGame
         private void drawRunning(GameTime gameTime)
         {
 
-            
-            float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
-
             // Draw each viewport
             for (int i = 0; i < players.Count(); i++)
             {
-                DrawViewport(i, delta);
+                DrawViewport(i, gameTime);
             }
 
             GraphicsDevice.Viewport = defaultViewport;
@@ -255,7 +253,7 @@ namespace CatGame
             GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
         }
 
-        private void DrawViewport(int i, float delta)
+        private void DrawViewport(int i, GameTime gameTime)
         {
             // Each Viewport for each player is shown
             GraphicsDevice.Viewport = viewports[i];
@@ -275,14 +273,14 @@ namespace CatGame
             Matrix view = Matrix.CreateLookAt(new Vector3(3, 3, 4), new Vector3(3, 0, -50), Vector3.Forward);
             Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, GraphicsDevice.Viewport.AspectRatio, 1, 1000);
 
-            ramp.Draw(delta, view, projection, rainbowLighting, players[i]);
+            ramp.Draw(gameTime, view, projection, rainbowLighting, players[i]);
 
             foreach (Obstacle o in obstacles)
             {
-                o.Draw(delta, view, projection, rainbowLighting, players[i]);
+                o.Draw(gameTime, view, projection, rainbowLighting, players[i]);
             }
 
-            players[i].Draw(delta, view, projection, rainbowLighting, players[i]);
+            players[i].Draw(gameTime, view, projection, rainbowLighting, players[i]);
             
             // Sprite mode
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
