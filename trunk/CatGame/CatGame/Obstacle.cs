@@ -10,16 +10,18 @@ namespace CatGame
 {
     class Obstacle : ThreeDObject
     {
+        public enum Size { SMALL, NORMAL, BIG, HUGE };
         private int lane;
-        private int size; // -1 = small; 0 = normal; 1 = big; 2 = huge
+        private Size size;
         public float distanceTravelled;
         private static Model cubeModel;
+        private float scaleFactor;
 
         public Obstacle(int lane) : base("cube")
         {
             model = cubeModel;
             this.lane = lane;
-            size = 0; // "normal" size initially
+            size = Size.NORMAL;
             distanceTravelled = -100;
             world = Matrix.CreateTranslation(lane, 0, distanceTravelled);
             this.collisionTested = false;
@@ -31,43 +33,70 @@ namespace CatGame
 
         public void moveLeft()
         {
-            int leftCutoff = Math.Max(1, size + 1);   
-            if (lane >= leftCutoff)
+            int cutoff = 1;
+            switch (size)
+            {
+                case Size.BIG:
+                    cutoff = 2;
+                    break;
+                case Size.HUGE:
+                    cutoff = 3;
+                    break;
+            }
+            if (lane >= cutoff)
                 lane--;
         }
 
         public void moveRight()
         {
-            if (lane <= Math.Min(5, 5 - size))
+            int cutoff = 5;
+            switch (size)
+            {
+                case Size.BIG:
+                    cutoff = 4;
+                    break;
+                case Size.HUGE:
+                    cutoff = 5;
+                    break;
+            }
+            if (lane <= cutoff)
                 lane++;
         }
 
         public void increaseSize()
         {
-            Console.WriteLine("Old size is " + size + "; old lane is " + lane);
             switch (size)
             {
-                case -1:
-                    size = 0;
+                case Size.SMALL:
+                    size = Size.NORMAL;
                     return;
-                case 0:
-                    size = 1;
+                case Size.NORMAL:
+                    size = Size.BIG;
                     if (lane == 0) lane = 1;
                     else if (lane == 6) lane = 5;
                     return;
-                case 1:
-                    size = 2;
+                case Size.BIG:
+                    size = Size.HUGE;
                     if (lane <= 1) lane = 2;
                     else if (lane >= 5) lane = 4;
                     return;
             }
-            Console.WriteLine("New size is " + size + "; new lane is " + lane);
         }
 
         public void decreaseSize()
         {
-            if (size >= 0)
-                size--;
+            switch (size)
+            {
+                case Size.NORMAL:
+                    size = Size.SMALL;
+                    break;
+                case Size.BIG:
+                    size = Size.NORMAL;
+                    break;
+                case Size.HUGE:
+                    size = Size.BIG;
+                    break;
+            }
         }
 
         internal bool hasReached(float position)
@@ -78,7 +107,22 @@ namespace CatGame
         public override void Update(float delta)
         {
             distanceTravelled += (delta * 10);
-            world = Matrix.CreateTranslation(lane, 0, distanceTravelled);
+            float newScaleFactor = 1;
+            switch (size)
+            {
+                case Size.SMALL:
+                    newScaleFactor = 0.7f;
+                    break;
+                case Size.BIG:
+                    newScaleFactor = 3;
+                    break;
+                case Size.HUGE:
+                    newScaleFactor = 5;
+                    break;
+            }
+            scaleFactor = newScaleFactor;
+            world = Matrix.CreateScale(scaleFactor, scaleFactor, 1);
+            world *= Matrix.CreateTranslation(lane, 0, distanceTravelled);
         }
 
         internal bool covers(float queryLane)
@@ -86,13 +130,13 @@ namespace CatGame
             int qLane = (int) Math.Round(queryLane);
             switch (size)
             {
-                case -1:
+                case Size.SMALL:
                     return qLane == lane;
-                case 0:
+                case Size.NORMAL:
                     return qLane == lane;
-                case 1:
+                case Size.BIG:
                     return Math.Abs(lane - qLane) <= 1;
-                case 2:
+                case Size.HUGE:
                     return Math.Abs(lane - qLane) <= 2;
             }
             return false;
@@ -110,5 +154,12 @@ namespace CatGame
 
         public bool collisionTested { get; set; }
 
+
+        internal BoundingBox getBoundingBox()
+        {
+            Vector3 min = Vector3.Transform(new Vector3(0, 0, 0), world);
+            Vector3 max = Vector3.Transform(new Vector3(scaleFactor * 0.9f, scaleFactor * 0.9f, 0.9f), world);
+            return new BoundingBox(min, max);
+        }
     }
 }
