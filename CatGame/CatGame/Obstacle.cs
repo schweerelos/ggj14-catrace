@@ -12,6 +12,7 @@ namespace CatGame
     {
         public enum Size { SMALL, NORMAL, BIG, HUGE };
 
+        private const float TRANSFORM_TIME = 0.2f;
         private const bool freezeInFinalState = true;
 
         private int lane;
@@ -20,6 +21,7 @@ namespace CatGame
         public float distanceTravelled;
         private static Model cubeModel;
         private float scaleFactor;
+        private float elapsedTransform;
 
         public Obstacle(int lane) : base("cube")
         {
@@ -31,6 +33,7 @@ namespace CatGame
             world = Matrix.CreateTranslation(initialLane, 0, distanceTravelled);
             this.collisionTested = false;
             this.usingFinalState = false;
+            elapsedTransform = 0;
         }
 
         public override void LoadContent(ContentManager content)
@@ -138,9 +141,16 @@ namespace CatGame
                     newScaleFactor = 5;
                     break;
             }
-            scaleFactor = usingFinalState ? newScaleFactor : 1;
-            world = Matrix.CreateScale(scaleFactor, scaleFactor, 1);
-            world *= Matrix.CreateTranslation(usingFinalState ? lane : initialLane, 0, distanceTravelled);
+
+            scaleFactor = 1;
+            if (usingFinalState)
+            {
+                scaleFactor = newScaleFactor;
+                elapsedTransform = MathHelper.Clamp(elapsedTransform + delta, 0, TRANSFORM_TIME);
+            }
+            float lerpScaleFactor = MathHelper.Lerp(1, scaleFactor, elapsedTransform / TRANSFORM_TIME);
+            world = Matrix.CreateScale(lerpScaleFactor, lerpScaleFactor, 1);
+            world *= Matrix.CreateTranslation(MathHelper.Lerp(initialLane, lane, elapsedTransform/TRANSFORM_TIME),0, distanceTravelled);
         }
 
         internal bool covers(float queryLane)
