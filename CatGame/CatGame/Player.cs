@@ -136,15 +136,11 @@ namespace CatGame
 
                 if (newState.IsKeyDown(Keys.D) && !oldKeyboardState.IsKeyDown(Keys.D))
                 {
-                    this.activeBonus++;
-                    if (activeBonus == Player.Bonus.LAST)
-                        activeBonus = Player.Bonus.SCALE_UP;
+                    rotateActionsLeft();
                 }
                 if (newState.IsKeyDown(Keys.A) && !oldKeyboardState.IsKeyDown(Keys.A))
                 {
-                    this.activeBonus--;
-                    if (activeBonus < 0)
-                        activeBonus = Player.Bonus.MOVE_RIGHT;
+                    rotateActionsRight();
                 }
 
                 
@@ -160,9 +156,34 @@ namespace CatGame
                 if (newState.Buttons.RightShoulder == ButtonState.Pressed &&
                     oldGamePadState.Buttons.RightShoulder == ButtonState.Released)
                     this.moveRight();
-
+                if (newState.Buttons.A == ButtonState.Pressed &&
+                    oldGamePadState.Buttons.A == ButtonState.Released)
+                    this.jump();
+                if (newState.Buttons.Y == ButtonState.Pressed &&
+                    oldGamePadState.Buttons.Y == ButtonState.Released)
+                    this.barf();
+                if (newState.Buttons.B == ButtonState.Pressed &&
+                    oldGamePadState.Buttons.B == ButtonState.Released)
+                    this.rotateActionsRight();
+                if (newState.Buttons.X == ButtonState.Pressed &&
+                    oldGamePadState.Buttons.X == ButtonState.Released)
+                    this.rotateActionsLeft();
                 oldGamePadState = newState;
             }
+        }
+
+        private void rotateActionsRight()
+        {
+            this.activeBonus--;
+            if (activeBonus < 0)
+                activeBonus = Player.Bonus.MOVE_RIGHT;
+        }
+
+        private void rotateActionsLeft()
+        {
+            this.activeBonus++;
+            if (activeBonus == Player.Bonus.LAST)
+                activeBonus = Player.Bonus.SCALE_UP;
         }
 
         internal Texture2D GetTexture()
