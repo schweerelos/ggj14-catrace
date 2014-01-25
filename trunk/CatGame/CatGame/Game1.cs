@@ -97,7 +97,7 @@ namespace CatGame
             heart = Content.Load<Texture2D>("Heart");
             cross = Content.Load<Texture2D>("cross");
             galaxy = Content.Load<Texture2D>("galaxy");
-            nyan = Content.Load<Texture2D>("nyan-our-rainbow");
+            nyan = Content.Load<Texture2D>("rainbow-kiwi");
             scoreFont = Content.Load<SpriteFont>("catfont");
             intro.LoadContent(Content);
         }

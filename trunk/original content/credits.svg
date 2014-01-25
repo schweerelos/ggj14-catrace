@@ -102,7 +102,7 @@
      inkscape:cx="566.7496"
      inkscape:cy="466.13214"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -124,7 +124,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -201,42 +201,49 @@
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Miramonte;-inkscape-font-specification:Miramonte"
        x="24.964844"
-       y="706.41876"
+       y="666.41876"
        id="text3864"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3866"
          x="24.964844"
-         y="706.41876"
+         y="666.41876"
          style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Lao UI;-inkscape-font-specification:Lao UI Bold">Artwork credits</tspan><tspan
          sodipodi:role="line"
          x="24.964844"
-         y="749.61218"
+         y="709.61218"
          id="tspan3870"
          style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lao UI;-inkscape-font-specification:Lao UI"><tspan
    style="font-weight:bold"
    id="tspan3900">Grumpy cat:</tspan> CC-BY 2.0 flickr user ifindkarma, http://www.flickr.com/photos/36521962026@N01/9638995065</tspan><tspan
          sodipodi:role="line"
          x="24.964844"
-         y="789.61218"
+         y="749.61218"
          style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lao UI;-inkscape-font-specification:Lao UI"
          id="tspan3878"><tspan
    style="font-weight:bold"
    id="tspan3902">Lil Bub:</tspan> CC-BY 2.0 flickr user ifindkarma, http://www.flickr.com/photos/36521962026@N01/9638995065</tspan><tspan
          sodipodi:role="line"
          x="24.964844"
-         y="829.61218"
+         y="789.61218"
          style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lao UI;-inkscape-font-specification:Lao UI"
          id="tspan3880"><tspan
    style="font-weight:bold"
    id="tspan3904">Kitty:</tspan> CC-BY 2.5 Wikimedia Commons user Bertil Videt http://commons.wikimedia.org/wiki/File:Turkish_Van_Cat.jpg </tspan><tspan
          sodipodi:role="line"
          x="24.964844"
-         y="869.61218"
+         y="829.61218"
          id="tspan3868"
          style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lao UI;-inkscape-font-specification:Lao UI"><tspan
    style="font-weight:bold"
    id="tspan3906">Pirate cat:</tspan> CC-BY-NC-SA 2.0 flickr user essjayNZ, http://www.flickr.com/photos/essjay/75859252</tspan><tspan
+         sodipodi:role="line"
+         x="24.964844"
+         y="869.61218"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Lao UI;-inkscape-font-specification:Lao UI"
+         id="tspan3026"><tspan
+   style="font-weight:bold"
+   id="tspan3028">Galaxy background: </tspan>CC-BY-NC 3.0 Adam Evans, http://www.sky-candy.ca/gallery/glowing-gas/11655441</tspan><tspan
          sodipodi:role="line"
          x="24.964844"
          y="909.61218"
