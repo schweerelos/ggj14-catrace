@@ -81,6 +81,7 @@
     <Compile Include="RainbowLighting.cs" />
     <Compile Include="Ramp.cs" />
     <Compile Include="ThreeDObject.cs" />
+    <Compile Include="VictoryScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

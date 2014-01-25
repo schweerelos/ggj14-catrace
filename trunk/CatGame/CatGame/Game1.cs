@@ -27,7 +27,8 @@ namespace CatGame
         KeyboardState oldState = Keyboard.GetState();
         const int numPlayers = 4;
         List<Player> players;
-        private double newObstacleThreshold = 1500;
+        private const double startingObstacleThreshold = 1500;
+        private double newObstacleThreshold = startingObstacleThreshold;
         private double elapsedSinceLastObstacle;
         List<Obstacle> obstacles = new List<Obstacle>();
 
@@ -43,6 +44,8 @@ namespace CatGame
         private Viewport[] viewports;
         private Viewport defaultViewport;
         IntroScreen intro;
+        List<Player> deadPlayers;
+        VictoryScreen winnerScreen;
 
         SpriteFont scoreFont;
 
@@ -57,9 +60,10 @@ namespace CatGame
 
             ramp = new Ramp();
             players = new List<Player>();
+            deadPlayers = new List<Player>();
             rainbowLighting = new RainbowLighting();
             
-            intro = new IntroScreen(this,GraphicsDevice);
+            intro = new IntroScreen(this);
             activeState = State.INTRO;
         }
 
@@ -114,6 +118,11 @@ namespace CatGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
+            Keys[] keys = Keyboard.GetState().GetPressedKeys();
+            if (keys.Contains(Keys.Escape))
+                this.Exit();
+
             switch (activeState)
             {
                 case State.INTRO:
@@ -123,6 +132,7 @@ namespace CatGame
                     updateGame(gameTime);
                     break;
                 case State.WINNER:
+                    winnerScreen.Update(gameTime);
                     break;
             }
 
@@ -140,9 +150,7 @@ namespace CatGame
                 p.update(gameTime);
 
 
-            Keys[] keys = Keyboard.GetState().GetPressedKeys();
-            if (keys.Contains(Keys.Escape))
-                this.Exit();
+            
 
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
             //  this.Exit();
@@ -161,6 +169,25 @@ namespace CatGame
                             if (isCollision(o, p))
                             {                               
                                     p.takeHit();
+                                    if (p.dead == true)
+                                    {
+                                        deadPlayers.Add(p);
+                                        if (deadPlayers.Count() == players.Count())
+                                        {
+                                            int pNo = -1;
+                                            for (int i = 0; i < players.Count(); i++)
+                                            {
+                                                if (players[i] == p)
+                                                {
+                                                    pNo = i;
+                                                    break;
+                                                }
+                                            }
+                                            winnerScreen = new VictoryScreen(this, pNo+1);
+                                            activeState = State.WINNER;
+
+                                        }
+                                    }
                             }
                             else
                             {
@@ -215,6 +242,7 @@ namespace CatGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+
             GraphicsDevice.Clear(Color.Black);
             switch (activeState)
             {
@@ -231,6 +259,16 @@ namespace CatGame
                 case State.RUNNING:
                     drawRunning(gameTime);
                     break;
+                case State.WINNER:
+                    GraphicsDevice.Viewport = defaultViewport;
+
+                    winnerScreen.Draw(gameTime, spriteBatch, scoreFont);
+
+                    GraphicsDevice.BlendState = BlendState.Opaque;
+                    GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+                    GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+                    break;
+                    
             }
 
             base.Draw(gameTime);
@@ -373,7 +411,13 @@ namespace CatGame
         {
            
             // Nuke old intro screen with its state.
-            intro = new IntroScreen(this,GraphicsDevice);
+            intro = new IntroScreen(this);
+            intro.LoadContent(Content);
+
+            // reset obstacles state
+            newObstacleThreshold = startingObstacleThreshold;
+            elapsedSinceLastObstacle = 0;
+            obstacles.Clear();
 
             for (int i = 0; i < players.Count(); i++)
             {
@@ -387,6 +431,13 @@ namespace CatGame
                 viewports[0] = defaultViewport;
 
             activeState = State.RUNNING;
+        }
+
+        internal void restartGame()
+        {
+            players = new List<Player>();
+            deadPlayers = new List<Player>();
+            activeState = State.INTRO;
         }
     }
 }
