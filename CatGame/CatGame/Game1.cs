@@ -22,7 +22,7 @@ namespace CatGame
         KeyboardState oldState = Keyboard.GetState();
         const int numPlayers = 4;
         Player[] players;
-        const double newObstacleThreshold = 1500;
+        private double newObstacleThreshold = 1500;
         private double elapsedSinceLastObstacle;
         List<Obstacle> obstacles = new List<Obstacle>();
 
@@ -175,6 +175,8 @@ namespace CatGame
             {
                 obstacles.Add(new Obstacle(randomSource.Next(0,7)));
                 elapsedSinceLastObstacle = 0;
+                newObstacleThreshold *= 0.995;
+                Console.WriteLine("obstacle threshold: " + newObstacleThreshold);
             }
 
             // TODO: Add your update logic here
