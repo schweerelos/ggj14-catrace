@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1680"
+   height="1024"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   inkscape:export-filename="splash.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3879">
+      <path
+         sodipodi:type="arc"
+         style="fill:#ffffff;fill-opacity:1"
+         id="path3881"
+         sodipodi:cx="828.91827"
+         sodipodi:cy="528.77045"
+         sodipodi:rx="63.06831"
+         sodipodi:ry="63.06831"
+         d="m 891.98658,528.77045 a 63.06831,63.06831 0 1 1 -126.13662,0 63.06831,63.06831 0 1 1 126.13662,0 z"
+         transform="translate(0,28.362168)" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.87207031"
+     inkscape:cx="855.71713"
+     inkscape:cy="466.13214"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1058"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1">
+    <sodipodi:guide
+       orientation="1,0"
+       position="1756.7391,447.21165"
+       id="guide3994" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Background"
+     sodipodi:insensitive="true"
+     style="display:inline">
+    <rect
+       transform="translate(0,-28.362168)"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="rect2996"
+       width="1680"
+       height="1024"
+       x="0"
+       y="28.362167" />
+  </g>
+  <g
+     inkscape:label="text"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-28.362168)">
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Miramonte;-inkscape-font-specification:Miramonte"
+       x="520.92188"
+       y="249.38628"
+       id="text3766"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3768"
+         x="520.92188"
+         y="249.38628"
+         style="font-size:144px;font-weight:bold;fill:#ffffff;fill-opacity:1;-inkscape-font-specification:Miramonte Bold">Cat Racer</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Miramonte;-inkscape-font-specification:Miramonte"
+       x="54.432034"
+       y="395.85614"
+       id="text3770"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="54.432034"
+         y="395.85614"
+         style="font-size:64px;font-weight:bold;fill:#ffffff;fill-opacity:1;-inkscape-font-specification:Miramonte Bold"
+         id="tspan3782">Game pad</tspan><tspan
+         sodipodi:role="line"
+         x="54.432034"
+         y="455.92914"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3774">To join:</tspan><tspan
+         sodipodi:role="line"
+         x="54.432034"
+         y="505.92914"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3786">Press START</tspan><tspan
+         sodipodi:role="line"
+         x="54.432034"
+         y="555.92914"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3776" /><tspan
+         sodipodi:role="line"
+         x="54.432034"
+         y="605.92914"
+         style="font-weight:bold;fill:#ffffff;fill-opacity:1"
+         id="tspan3778">In-game keys:</tspan><tspan
+         sodipodi:role="line"
+         x="54.432034"
+         y="655.92914"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3780">A - Jump</tspan><tspan
+         sodipodi:role="line"
+         x="54.432034"
+         y="705.92914"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3788">X - Use power</tspan><tspan
+         sodipodi:role="line"
+         x="54.432034"
+         y="755.92914"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3790">L/R - Change power</tspan><tspan
+         sodipodi:role="line"
+         x="54.432034"
+         y="805.92914"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3792">D-Pad - Move</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Miramonte;-inkscape-font-specification:Miramonte"
+       x="1251.4664"
+       y="395.85614"
+       id="text3770-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="1251.4664"
+         y="395.85614"
+         style="font-size:64px;font-weight:bold;fill:#ffffff;fill-opacity:1;-inkscape-font-specification:Miramonte Bold"
+         id="tspan3782-7">Keyboard</tspan><tspan
+         sodipodi:role="line"
+         x="1251.4664"
+         y="452.57147"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3774-4">To join:</tspan><tspan
+         sodipodi:role="line"
+         x="1251.4664"
+         y="502.57147"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3786-0">Press ENTER or SPACE</tspan><tspan
+         sodipodi:role="line"
+         x="1251.4664"
+         y="552.57147"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3776-9" /><tspan
+         sodipodi:role="line"
+         x="1251.4664"
+         y="602.57147"
+         style="fill:#ffffff;fill-opacity:1;font-weight:bold"
+         id="tspan3778-4">In-game keys:</tspan><tspan
+         sodipodi:role="line"
+         x="1251.4664"
+         y="652.57147"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3780-8">Space - Jump</tspan><tspan
+         sodipodi:role="line"
+         x="1251.4664"
+         y="702.57147"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3788-8">Ctrl - Use power</tspan><tspan
+         sodipodi:role="line"
+         x="1251.4664"
+         y="752.57147"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3790-2">A/D - Change power</tspan><tspan
+         sodipodi:role="line"
+         x="1251.4664"
+         y="802.57147"
+         style="fill:#ffffff;fill-opacity:1"
+         id="tspan3792-4">Arrows - Move</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Miramonte;-inkscape-font-specification:Miramonte"
+       x="54.432034"
+       y="1020.6194"
+       id="text3839"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3841"
+         x="54.432034"
+         y="1020.6194"
+         style="font-size:32px;fill:#ffffff;fill-opacity:1">A Global Game Jam 2014 game brought to you by Team 'Sup Doc           https://code.google.com/p/ggj14-catrace/</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="wheel">
+    <g
+       transform="translate(0.98291016,105.28046)"
+       id="g3885">
+      <path
+         transform="translate(0,28.362168)"
+         d="m 893.84993,529.20044 c 0,35.93994 -29.13508,65.07503 -65.07503,65.07503 -35.93994,0 -65.07503,-29.13509 -65.07503,-65.07503 0,-35.93995 29.13509,-65.07503 65.07503,-65.07503 35.93995,0 65.07503,29.13508 65.07503,65.07503 z"
+         sodipodi:ry="65.075027"
+         sodipodi:rx="65.075027"
+         sodipodi:cy="529.20044"
+         sodipodi:cx="828.7749"
+         id="path3883"
+         style="fill:#ffffff;fill-opacity:1"
+         sodipodi:type="arc" />
+      <image
+         clip-path="url(#clipPath3879)"
+         width="128"
+         height="128"
+         xlink:href="data:image/png;base64,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
+"
+         id="image3874"
+         x="764.84039"
+         y="493.40921" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Miramonte;-inkscape-font-specification:Miramonte"
+       x="553.29688"
+       y="674.0462"
+       id="text3894"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3896"
+         x="553.29688"
+         y="674.0462"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;font-family:Miramonte;-inkscape-font-specification:Miramonte">One lane left</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Miramonte;-inkscape-font-specification:Miramonte"
+       x="927.28125"
+       y="670.2962"
+       id="text3898"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3900"
+         x="927.28125"
+         y="670.2962"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;font-family:Miramonte;-inkscape-font-specification:Miramonte">One lane right</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Miramonte;-inkscape-font-specification:Miramonte"
+       x="736.40625"
+       y="786.36731"
+       id="text3902"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3904"
+         x="736.40625"
+         y="786.36731"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;font-family:Miramonte;-inkscape-font-specification:Miramonte">Make smaller</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Miramonte;-inkscape-font-specification:Miramonte"
+       x="741.25"
+       y="551.56104"
+       id="text3906"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3908"
+         x="741.25"
+         y="551.56104"
+         style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;font-family:Miramonte;-inkscape-font-specification:Miramonte">Make bigger</tspan></text>
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 762.15694,689.1646 c -59.7291,6.50342 -60.23262,14.22941 -110.40313,-3.4401"
+       id="path3922"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 825.22525,566.46808 c 3.0547,6.60334 4.97766,13.64293 6.88018,20.64054"
+       id="path3924"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 901.22749,684.6047 c 37.51695,15.13741 98.84171,24.03078 127.28331,-5.73348"
+       id="path3926"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 850.45257,736.47256 c -0.19429,9.35064 0.20459,22.24575 -10.32027,26.37402"
+       id="path3928"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>
