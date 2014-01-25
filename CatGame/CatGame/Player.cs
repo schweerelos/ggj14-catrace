@@ -37,7 +37,6 @@ namespace CatGame
         public const int AVATAR_SIZE = 128;
         private Texture2D texture;
         private String textureFile;
-        private SoundEffect hitSound;
         
         
         private float turnTime = 0;
@@ -64,7 +63,6 @@ namespace CatGame
         {
             base.LoadContent(content);
             texture = content.Load<Texture2D>(textureFile);
-            hitSound = content.Load<SoundEffect>("meow");
         }
 
         public void moveLeft()
@@ -215,7 +213,6 @@ namespace CatGame
             if (dead)
                 return;
 
-            hitSound.Play();
             if (lives <= 1)
             {
                 this.dead = true;

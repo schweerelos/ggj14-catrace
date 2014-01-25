@@ -50,6 +50,7 @@ namespace CatGame
         SoundEffect musicEffect;
         Song music;
         SpriteFont scoreFont;
+        private SoundEffect hitSound;
 
         public Game1()
         {
@@ -102,7 +103,7 @@ namespace CatGame
             nyan = Content.Load<Texture2D>("rainbow-kiwi");
             scoreFont = Content.Load<SpriteFont>("catfont");
             intro.LoadContent(Content);
-
+            hitSound = Content.Load<SoundEffect>("meow");
             music = Content.Load<Song>("ForAGIng");
             //music = musicEffect.CreateInstance();
         }
@@ -174,6 +175,7 @@ namespace CatGame
                             if (isCollision(o, p) && o.GetScale() >= 1)
                             {                               
                                     p.takeHit();
+                                    hitSound.Play();
                                     if (p.dead == true)
                                     {
                                         if (!deadPlayers.Contains(p))
