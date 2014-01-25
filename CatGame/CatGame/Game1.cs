@@ -79,7 +79,7 @@ namespace CatGame
         /// all content.
         /// </summary>
         protected override void UnloadContent()
-        {
+         {
             // TODO: Unload any non ContentManager content here
         }
 
@@ -111,7 +111,7 @@ namespace CatGame
             foreach (Obstacle o in obstacles)
             {
                 o.Update(delta);
-                if (o.hasReached(0))
+                if (o.hasReached(3))
                 {
                     foreach (Player p in players)
                     {
