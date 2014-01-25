@@ -15,7 +15,7 @@ namespace CatGame
         Bonus activeBonus = Bonus.SCALE_UP;
         public Bonus prevBonus = Bonus.SCALE_UP;
 
-        private PlayerIndex playerIndex;
+        public PlayerIndex playerIndex;
         KeyboardState oldKeyboardState;
         GamePadState oldGamePadState;
         private Vector3 currentPos;
@@ -34,9 +34,8 @@ namespace CatGame
         public const int AVATAR_SIZE = 128;
         private Texture2D texture;
         private String textureFile;
-        private bool p;
-        private Game1 game1;
-        private string p_2;
+        
+        
         private float turnTime = 0;
 
         public Player(PlayerIndex playerIndex, bool usesKeyboard, Game1 gameEngine, String textureFile) : base("cat") {
