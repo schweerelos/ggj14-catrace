@@ -37,6 +37,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ForAGIng.mp3">
+      <Name>ForAGIng</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
     <Compile Include="ramp.fbx">
       <Name>ramp</Name>
       <Importer>FbxImporter</Importer>
@@ -128,13 +133,6 @@
   <ItemGroup>
     <Compile Include="TwineTex.png">
       <Name>TwineTex</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="nyan-our-rainbow.png">
-      <Name>nyan-our-rainbow</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

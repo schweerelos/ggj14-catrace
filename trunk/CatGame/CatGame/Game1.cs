@@ -176,7 +176,8 @@ namespace CatGame
                                     p.takeHit();
                                     if (p.dead == true)
                                     {
-                                        deadPlayers.Add(p);
+                                        if (!deadPlayers.Contains(p))
+                                            deadPlayers.Add(p);
                                         if (deadPlayers.Count() == players.Count())
                                         {
                                             int pNo = -1;
