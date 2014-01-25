@@ -22,6 +22,7 @@ namespace CatGame
         private static Model cubeModel;
         private float scaleFactor;
         private float elapsedTransform;
+        private HashSet<Player> playerHasBarfed = new HashSet<Player>();
 
         public Obstacle(int lane) : base("cube")
         {
@@ -40,10 +41,13 @@ namespace CatGame
         {
         }
 
-        public void moveLeft()
+        public void moveLeft(Player player)
         {
             if (usingFinalState && freezeInFinalState)
                 return;
+            if (hasBeenHitByPlayer(player))
+                return;
+            playerHasBarfed.Add(player);
 
             int cutoff = 1;
             switch (size)
@@ -59,10 +63,13 @@ namespace CatGame
                 lane--;
         }
 
-        public void moveRight()
+        public void moveRight(Player player)
         {
             if (usingFinalState && freezeInFinalState)
                 return;
+            if (hasBeenHitByPlayer(player))
+                return;
+            playerHasBarfed.Add(player);
 
             int cutoff = 5;
             switch (size)
@@ -78,10 +85,13 @@ namespace CatGame
                 lane++;
         }
 
-        public void increaseSize()
+        public void increaseSize(Player player)
         {
             if (usingFinalState && freezeInFinalState)
                 return;
+            if (hasBeenHitByPlayer(player))
+                return;
+            playerHasBarfed.Add(player);
 
             switch (size)
             {
@@ -101,10 +111,13 @@ namespace CatGame
             }
         }
 
-        public void decreaseSize()
+        public void decreaseSize(Player player)
         {
             if (usingFinalState && freezeInFinalState)
                 return;
+            if (hasBeenHitByPlayer(player))
+                return;
+            playerHasBarfed.Add(player);
 
             switch (size)
             {
@@ -189,6 +202,11 @@ namespace CatGame
             Vector3 min = Vector3.Transform(new Vector3(0, 0, 0), world);
             Vector3 max = Vector3.Transform(new Vector3(scaleFactor * 0.9f, scaleFactor * 0.9f, 0.9f), world);
             return new BoundingBox(min, max);
+        }
+
+        internal bool hasBeenHitByPlayer(Player player)
+        {
+            return playerHasBarfed.Contains(player);
         }
     }
 }
