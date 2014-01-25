@@ -20,8 +20,8 @@ namespace CatGame
         SpriteBatch spriteBatch;
         Ramp ramp;
         KeyboardState oldState = Keyboard.GetState();
-        const int numPlayers = 1;
-        Player[] players = new Player[numPlayers];
+        const int numPlayers = 2;
+        Player[] players;
         const double newObstacleThreshold = 1500;
         private double elapsedSinceLastObstacle;
         List<Obstacle> obstacles = new List<Obstacle>();
@@ -31,17 +31,21 @@ namespace CatGame
         Texture2D bonusWheel;
         private int HEART_SIZE = 32;
         private Texture2D heart;
+        private Texture2D galaxy;
+        private Viewport[] viewports;
+        private Viewport defaultViewport;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferHeight = 1024;
-            graphics.PreferredBackBufferWidth = 1680;
+            graphics.PreferredBackBufferWidth = 1680;// Window.ClientBounds.Width;
+            graphics.PreferredBackBufferHeight = 1024;// Window.ClientBounds.Height;
             //graphics.IsFullScreen = true;
 
             Content.RootDirectory = "Content";
 
             ramp = new Ramp();
+            players = new Player[numPlayers];
             for (int i = 0; i < numPlayers; i++)
             {
                 players[i] = new Player(PlayerIndex.One, true,this);
@@ -57,6 +61,18 @@ namespace CatGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            defaultViewport = GraphicsDevice.Viewport;
+            viewports = new Viewport[numPlayers];
+            for (int i = 0; i < numPlayers; i++)
+            {
+                int width = Window.ClientBounds.Width / 2;
+                int height = Window.ClientBounds.Height / 2;
+                if (numPlayers <= 2)
+                    height *= 2;
+                viewports[i] = new Viewport((i % 2) * width, (i / 2) * height, width, height);
+            }
+            if (numPlayers == 1)
+                viewports[0] = defaultViewport;
 
             base.Initialize();
         }
@@ -78,6 +94,7 @@ namespace CatGame
             }
             bonusWheel = Content.Load<Texture2D>("BonusWheel");
             heart = Content.Load<Texture2D>("Heart");
+            galaxy = Content.Load<Texture2D>("galaxy");
         }
 
         /// <summary>
@@ -182,23 +199,15 @@ namespace CatGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            // TODO: Add your drawing code here
-            //world *= Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalMilliseconds / 1000f);
-            Matrix view = Matrix.CreateLookAt(new Vector3(3, 3, 3), new Vector3(3,0,-5), Vector3.Forward);
-            Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 4f / 3f, 1, 1000);
             float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
-            ramp.Draw(delta, view, projection);
-
-            foreach (Obstacle o in obstacles)
+            // Draw each viewport
+            for (int i = 0; i < players.Length; i++)
             {
-                o.Draw(delta, view, projection);
+                DrawViewport(i, delta);
             }
 
-            foreach (Player p in players) {
-                p.Draw(delta,view,projection);
-            }
+            GraphicsDevice.Viewport = defaultViewport;
 
             // Sprite mode
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
@@ -212,27 +221,61 @@ namespace CatGame
             base.Draw(gameTime);
         }
 
+        private void DrawViewport(int i, float delta)
+        {
+            // Each Viewport for each player is shown
+            GraphicsDevice.Viewport = viewports[i];
+
+            // Draw stars
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
+            spriteBatch.Draw(galaxy, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+            spriteBatch.End();
+
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
+            // TODO: Add your drawing code here
+            //world *= Matrix.CreateRotationY((float) gameTime.TotalGameTime.TotalMilliseconds / 1000f);
+            Matrix view = Matrix.CreateLookAt(new Vector3(3, 3, 4), new Vector3(3, 0, -50), Vector3.Forward);
+            Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, GraphicsDevice.Viewport.AspectRatio, 1, 1000);
+
+            ramp.Draw(delta, view, projection);
+
+            foreach (Obstacle o in obstacles)
+            {
+                o.Draw(delta, view, projection);
+            }
+
+            foreach (Player p in players)
+            {
+                p.Draw(delta, view, projection);
+            }
+        }
+
         private void DrawGUI()
         {
             for (int i = 0; i < players.Length; i++)
             {
+                Player p = players[i];
+
                 // Player avatar
                 int x = 10 + (i % 2) * GraphicsDevice.Viewport.Width / 2;
                 int y = 10;
                 if (i >= 2)
                     y += GraphicsDevice.Viewport.Height / 2;
                 Rectangle position = new Rectangle(x, y, Player.AVATAR_SIZE, Player.AVATAR_SIZE);
-                spriteBatch.Draw(players[i].GetTexture(), position, Color.White);
+                spriteBatch.Draw(p.GetTexture(), position, Color.White);
 
                 // Draw hearts
-                for (int j = 0; j < players[i].lives; j++ )
+                for (int j = 0; j < p.lives; j++ )
                 {
                     Rectangle heartRect = new Rectangle(x + Player.AVATAR_SIZE + 10 + (j % 3) * HEART_SIZE, y + j / 3 * HEART_SIZE, HEART_SIZE, HEART_SIZE);
                     spriteBatch.Draw(heart, heartRect, Color.White);
                 }
 
                 // Draw bonus wheel
-                Player.Bonus selectedBonus = players[i].getBonus();
+                Player.Bonus selectedBonus = p.getBonus();
                 float rotation = (float) (((int) selectedBonus / (float) Player.Bonus.LAST) * Math.PI*2);
                 Rectangle bonusRect = new Rectangle(x + BONUS_WHEEL/2, y + Player.AVATAR_SIZE + 10 + BONUS_WHEEL/2, BONUS_WHEEL, BONUS_WHEEL);
                 spriteBatch.Draw(bonusWheel, bonusRect, null, Color.White, rotation, new Vector2(BONUS_WHEEL/2), SpriteEffects.None, 0);
