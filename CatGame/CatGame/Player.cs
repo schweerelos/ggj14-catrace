@@ -212,13 +212,12 @@ namespace CatGame
                 this.dead = true;
             }
             lives--;
-            Console.WriteLine("Lives: " + lives);
         }
 
         internal void incrementSurvivedObstacles()
         {
-            score++;
-            Console.WriteLine("Score: " + score);
+            if (!dead)
+                score++;
         }
 
 
