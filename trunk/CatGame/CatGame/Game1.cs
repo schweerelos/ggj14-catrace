@@ -20,7 +20,7 @@ namespace CatGame
         SpriteBatch spriteBatch;
         Ramp ramp;
         KeyboardState oldState = Keyboard.GetState();
-        const int numPlayers = 2;
+        const int numPlayers = 4;
         Player[] players;
         const double newObstacleThreshold = 1500;
         private double elapsedSinceLastObstacle;
@@ -33,6 +33,7 @@ namespace CatGame
         public static String[] CAT_NAMES = { "kitty", "tongue", "pirate", "grumpy" };
         private Texture2D heart;
         private Texture2D galaxy;
+        private Texture2D cross;
         private Viewport[] viewports;
         private Viewport defaultViewport;
 
@@ -95,6 +96,7 @@ namespace CatGame
             }
             bonusWheel = Content.Load<Texture2D>("BonusWheel");
             heart = Content.Load<Texture2D>("Heart");
+            cross = Content.Load<Texture2D>("cross");
             galaxy = Content.Load<Texture2D>("galaxy");
         }
 
@@ -141,18 +143,11 @@ namespace CatGame
                     {
                         foreach (Player p in players)
                         {
-                            // TODO figure out if player is jumping
                             if (isCollision(o, p))
                             {
-                                try
-                                {
+                               
                                     p.takeHit();
-                                }
-                                catch (OutOfLivesException oole)
-                                {
-                                    Console.WriteLine("Player dead");
-                                    this.Exit();
-                                }
+                                    
                             }
                             else
                             {
@@ -214,11 +209,7 @@ namespace CatGame
 
             GraphicsDevice.Viewport = defaultViewport;
 
-            // Sprite mode
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
-            DrawGUI();
-            spriteBatch.End();
-
+            
             GraphicsDevice.BlendState = BlendState.Opaque;
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
@@ -253,19 +244,21 @@ namespace CatGame
             }
 
             players[i].Draw(delta, view, projection);
+            
+            // Sprite mode
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
+            DrawGUI(players[i]);
+            spriteBatch.End();
+
         }
 
-        private void DrawGUI()
+        private void DrawGUI(Player p)
         {
-            for (int i = 0; i < players.Length; i++)
-            {
-                Player p = players[i];
-
+            
                 // Player avatar
-                int x = 10 + (i % 2) * GraphicsDevice.Viewport.Width / 2;
+                int x = 10;
                 int y = 10;
-                if (i >= 2)
-                    y += GraphicsDevice.Viewport.Height / 2;
+                
                 Rectangle position = new Rectangle(x, y, Player.AVATAR_SIZE, Player.AVATAR_SIZE);
                 spriteBatch.Draw(p.GetTexture(), position, Color.White);
                 
@@ -281,7 +274,16 @@ namespace CatGame
                 float rotation = p.getBonusRotation();
                 Rectangle bonusRect = new Rectangle(x + BONUS_WHEEL/2, y + Player.AVATAR_SIZE + 10 + BONUS_WHEEL/2, BONUS_WHEEL, BONUS_WHEEL);
                 spriteBatch.Draw(bonusWheel, bonusRect, null, Color.White, rotation, new Vector2(BONUS_WHEEL/2), SpriteEffects.None, 0);
-            }
+
+                // Draw cross if player is dead
+                if (p.dead)
+                {
+                    Console.Write("Drawing cross");
+
+                    Rectangle crossRect = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+                    spriteBatch.Draw(cross, crossRect, Color.White);
+                }
+            
         }
 
         internal void playerBarfsBonus(Player player)
