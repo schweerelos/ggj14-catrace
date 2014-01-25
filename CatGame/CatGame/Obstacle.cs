@@ -11,6 +11,9 @@ namespace CatGame
     class Obstacle : ThreeDObject
     {
         public enum Size { SMALL, NORMAL, BIG, HUGE };
+
+        private const bool freezeInFinalState = true;
+
         private int lane;
         private int initialLane;
         private Size size;
@@ -36,6 +39,9 @@ namespace CatGame
 
         public void moveLeft()
         {
+            if (usingFinalState && freezeInFinalState)
+                return;
+
             int cutoff = 1;
             switch (size)
             {
@@ -52,6 +58,9 @@ namespace CatGame
 
         public void moveRight()
         {
+            if (usingFinalState && freezeInFinalState)
+                return;
+
             int cutoff = 5;
             switch (size)
             {
@@ -68,6 +77,9 @@ namespace CatGame
 
         public void increaseSize()
         {
+            if (usingFinalState && freezeInFinalState)
+                return;
+
             switch (size)
             {
                 case Size.SMALL:
@@ -88,6 +100,9 @@ namespace CatGame
 
         public void decreaseSize()
         {
+            if (usingFinalState && freezeInFinalState)
+                return;
+
             switch (size)
             {
                 case Size.NORMAL:
