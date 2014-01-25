@@ -23,7 +23,7 @@ namespace CatGame
         private Game1 gameEngine;
         private int bounce;
 
-        private float speed = 5f;
+        private float speed = 7f;
         
         private float yAccel = 0;
         private const float gravity = 20.82f;
@@ -32,8 +32,12 @@ namespace CatGame
         
         public const int AVATAR_SIZE = 128;
         private Texture2D texture;
+        private String textureFile;
+        private bool p;
+        private Game1 game1;
+        private string p_2;
 
-        public Player(PlayerIndex playerIndex, bool usesKeyboard, Game1 gameEngine) : base("cube") {
+        public Player(PlayerIndex playerIndex, bool usesKeyboard, Game1 gameEngine, String textureFile) : base("cube") {
 
             startingPos = new Vector3(3,0,0);
             targetPos = startingPos;
@@ -43,6 +47,7 @@ namespace CatGame
             this.playerIndex = playerIndex;
             this.usesKeyboard = usesKeyboard;
             this.gameEngine = gameEngine;
+            this.textureFile = textureFile;
 
             if (this.usesKeyboard)
                 oldKeyboardState = Keyboard.GetState();
@@ -53,7 +58,7 @@ namespace CatGame
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
-            texture = content.Load<Texture2D>("grumpy");
+            texture = content.Load<Texture2D>(textureFile);
         }
 
         public void moveLeft()
