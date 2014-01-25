@@ -20,7 +20,7 @@ namespace CatGame
         SpriteBatch spriteBatch;
         Ramp ramp;
         KeyboardState oldState = Keyboard.GetState();
-        const int numPlayers = 1;
+        const int numPlayers = 4;
         Player[] players;
         const double newObstacleThreshold = 1500;
         private double elapsedSinceLastObstacle;
@@ -251,10 +251,7 @@ namespace CatGame
                 o.Draw(delta, view, projection);
             }
 
-            foreach (Player p in players)
-            {
-                p.Draw(delta, view, projection);
-            }
+            players[i].Draw(delta, view, projection);
         }
 
         private void DrawGUI()
@@ -270,6 +267,7 @@ namespace CatGame
                     y += GraphicsDevice.Viewport.Height / 2;
                 Rectangle position = new Rectangle(x, y, Player.AVATAR_SIZE, Player.AVATAR_SIZE);
                 spriteBatch.Draw(p.GetTexture(), position, Color.White);
+                
 
                 // Draw hearts
                 for (int j = 0; j < p.lives; j++ )
@@ -296,32 +294,10 @@ namespace CatGame
                     candidates.Add(o);
                 }
             }
-            if (candidates.Count() == 0)
-                return;
-
             candidates.Sort((a, b) => a.distanceTravelled.CompareTo(b.distanceTravelled));
-            
             Obstacle ob = candidates.Last();
             
-            switch (player.getActiveBonus())
-            {
-                case Player.Bonus.SCALE_UP:
-                    ob.increaseSize();
-                    break;
-                case Player.Bonus.SCALE_DOWN:
-                    ob.decreaseSize();
-                    break;
-                case Player.Bonus.MOVE_LEFT:
-                    ob.moveLeft();
-                    break;
-                case Player.Bonus.MOVE_RIGHT:
-                    ob.moveRight();
-                    break;
-                default:
-                    Console.WriteLine("Barf fallthrough, player bonus state is wrong");
-                    break;
-            }
-            
+            ob.increaseSize();
         }
     }
 }
