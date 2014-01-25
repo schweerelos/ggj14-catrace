@@ -12,6 +12,7 @@ namespace CatGame
     class Player : ThreeDObject
     {
         public enum Bonus { SCALE_UP, MOVE_LEFT, SCALE_DOWN, MOVE_RIGHT, LAST };
+        public static Color[] BONUS_COLORS = { Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.White };
         Bonus activeBonus = Bonus.SCALE_UP;
         public Bonus prevBonus = Bonus.SCALE_UP;
 

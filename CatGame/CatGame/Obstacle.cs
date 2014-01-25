@@ -22,7 +22,7 @@ namespace CatGame
         private static Model twineModel;
         private float scaleFactor;
         private float elapsedTransform;
-        private HashSet<Player> playerHasBarfed = new HashSet<Player>();
+        private Dictionary<Player, Player.Bonus> playerHasBarfed = new Dictionary<Player, Player.Bonus>();
 
         public Obstacle(int lane) : base("cube")
         {
@@ -47,7 +47,7 @@ namespace CatGame
                 return;
             if (hasBeenHitByPlayer(player))
                 return;
-            playerHasBarfed.Add(player);
+            playerHasBarfed.Add(player, Player.Bonus.MOVE_LEFT);
 
             int cutoff = 1;
             switch (size)
@@ -69,7 +69,7 @@ namespace CatGame
                 return;
             if (hasBeenHitByPlayer(player))
                 return;
-            playerHasBarfed.Add(player);
+            playerHasBarfed.Add(player, Player.Bonus.MOVE_RIGHT); ;
 
             int cutoff = 5;
             switch (size)
@@ -91,7 +91,7 @@ namespace CatGame
                 return;
             if (hasBeenHitByPlayer(player))
                 return;
-            playerHasBarfed.Add(player);
+            playerHasBarfed.Add(player, Player.Bonus.SCALE_UP);
 
             switch (size)
             {
@@ -117,7 +117,7 @@ namespace CatGame
                 return;
             if (hasBeenHitByPlayer(player))
                 return;
-            playerHasBarfed.Add(player);
+            playerHasBarfed.Add(player, Player.Bonus.SCALE_DOWN);
 
             switch (size)
             {
@@ -162,6 +162,7 @@ namespace CatGame
                 elapsedTransform = MathHelper.Clamp(elapsedTransform + delta, 0, TRANSFORM_TIME);
             }
             float lerpScaleFactor = MathHelper.Lerp(1, scaleFactor, elapsedTransform / TRANSFORM_TIME);
+            world = Matrix.Identity;
             world = Matrix.CreateScale(lerpScaleFactor, lerpScaleFactor, 1);
             world *= Matrix.CreateTranslation(MathHelper.Lerp(initialLane, lane, elapsedTransform/TRANSFORM_TIME),0, distanceTravelled);
         }
@@ -186,13 +187,16 @@ namespace CatGame
         public static void StaticLoadContent(ContentManager content)
         {
             twineModel = content.Load<Model>("twine");
-            foreach (ModelMesh mesh in twineModel.Meshes)
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.SpecularPower = 0;
-                    effect.SpecularColor = Vector3.Zero;
-                    effect.AmbientLightColor = Vector3.One;
-                }
+        }
+
+        public override void SetEffect(Matrix view, Matrix projection, RainbowLighting lighting, BasicEffect effect, Player activePlayer)
+        {
+            // TODO Set effect to be individual to each obstacle.
+            base.SetEffect(view, projection, lighting, effect, activePlayer);
+            if (hasBeenHitByPlayer(activePlayer))
+            {
+                effect.EmissiveColor = Player.BONUS_COLORS[(int)playerHasBarfed[activePlayer]].ToVector3();
+            }
         }
 
         public bool collisionTested { get; set; }
@@ -208,7 +212,7 @@ namespace CatGame
 
         internal bool hasBeenHitByPlayer(Player player)
         {
-            return playerHasBarfed.Contains(player);
+            return playerHasBarfed.ContainsKey(player);
         }
     }
 }

@@ -23,6 +23,7 @@ namespace CatGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Ramp ramp;
+        RainbowLighting rainbowLighting;
         KeyboardState oldState = Keyboard.GetState();
         const int numPlayers = 4;
         List<Player> players;
@@ -38,6 +39,7 @@ namespace CatGame
         private Texture2D heart;
         private Texture2D galaxy;
         private Texture2D cross;
+        private Texture2D nyan;
         private Viewport[] viewports;
         private Viewport defaultViewport;
         IntroScreen intro;
@@ -55,6 +57,7 @@ namespace CatGame
 
             ramp = new Ramp();
             players = new List<Player>();
+            rainbowLighting = new RainbowLighting();
             
             intro = new IntroScreen(this,GraphicsDevice);
             activeState = State.INTRO;
@@ -91,6 +94,7 @@ namespace CatGame
             heart = Content.Load<Texture2D>("Heart");
             cross = Content.Load<Texture2D>("cross");
             galaxy = Content.Load<Texture2D>("galaxy");
+            nyan = Content.Load<Texture2D>("nyan-our-rainbow");
             scoreFont = Content.Load<SpriteFont>("catfont");
             intro.LoadContent(Content);
         }
@@ -192,6 +196,8 @@ namespace CatGame
 
             // TODO: Add your update logic here
             ramp.Update(delta);
+
+            rainbowLighting.Update(delta);
         }
                 
         private bool isCollision(Obstacle o, Player p)
@@ -255,8 +261,9 @@ namespace CatGame
             GraphicsDevice.Viewport = viewports[i];
 
             // Draw stars
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             spriteBatch.Draw(galaxy, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+            spriteBatch.Draw(nyan, new Rectangle(GraphicsDevice.Viewport.Width / 2 + 20, GraphicsDevice.Viewport.Height / 2 - 15, nyan.Width / 2, nyan.Height / 2), Color.White);
             spriteBatch.End();
 
             GraphicsDevice.BlendState = BlendState.Opaque;
@@ -268,14 +275,14 @@ namespace CatGame
             Matrix view = Matrix.CreateLookAt(new Vector3(3, 3, 4), new Vector3(3, 0, -50), Vector3.Forward);
             Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, GraphicsDevice.Viewport.AspectRatio, 1, 1000);
 
-            ramp.Draw(delta, view, projection);
+            ramp.Draw(delta, view, projection, rainbowLighting, players[i]);
 
             foreach (Obstacle o in obstacles)
             {
-                o.Draw(delta, view, projection);
+                o.Draw(delta, view, projection, rainbowLighting, players[i]);
             }
 
-            players[i].Draw(delta, view, projection);
+            players[i].Draw(delta, view, projection, rainbowLighting, players[i]);
             
             // Sprite mode
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
