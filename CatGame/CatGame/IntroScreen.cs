@@ -19,11 +19,10 @@ namespace CatGame
         KeyboardState oldKeyboardState;
         IntroState state;
         List <Player> players;
-
         Texture2D splash;
-        GraphicsDevice GraphicsDevice;
+
         
-        public IntroScreen(Game1 gameEngine,GraphicsDevice GraphicsDevice)
+        public IntroScreen(Game1 gameEngine)
         {
             this.gameEngine = gameEngine;
             for (int i = 0; i < 4; i++)
@@ -33,7 +32,7 @@ namespace CatGame
             oldKeyboardState = Keyboard.GetState();
             state = IntroState.HELP;
             players = new List<Player>();
-            this.GraphicsDevice = GraphicsDevice;
+
         }
 
         public void LoadContent(ContentManager content)
