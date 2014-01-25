@@ -39,7 +39,7 @@ namespace CatGame
         private string p_2;
         private float turnTime = 0;
 
-        public Player(PlayerIndex playerIndex, bool usesKeyboard, Game1 gameEngine, String textureFile) : base("cube") {
+        public Player(PlayerIndex playerIndex, bool usesKeyboard, Game1 gameEngine, String textureFile) : base("cat") {
 
             startingPos = new Vector3(3,0,0);
             targetPos = startingPos;

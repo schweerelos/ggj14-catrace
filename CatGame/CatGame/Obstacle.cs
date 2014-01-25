@@ -19,14 +19,14 @@ namespace CatGame
         private int initialLane;
         private Size size;
         public float distanceTravelled;
-        private static Model cubeModel;
+        private static Model twineModel;
         private float scaleFactor;
         private float elapsedTransform;
         private HashSet<Player> playerHasBarfed = new HashSet<Player>();
 
         public Obstacle(int lane) : base("cube")
         {
-            model = cubeModel;
+            model = twineModel;
             this.lane = lane;
             initialLane = lane;
             size = Size.NORMAL;
@@ -185,11 +185,13 @@ namespace CatGame
 
         public static void StaticLoadContent(ContentManager content)
         {
-            cubeModel = content.Load<Model>("cube");
-            foreach (ModelMesh mesh in cubeModel.Meshes)
+            twineModel = content.Load<Model>("twine");
+            foreach (ModelMesh mesh in twineModel.Meshes)
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.EnableDefaultLighting();
+                    effect.SpecularPower = 0;
+                    effect.SpecularColor = Vector3.Zero;
+                    effect.AmbientLightColor = Vector3.One;
                 }
         }
 
