@@ -16,12 +16,16 @@ namespace CatGame
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        public enum State {INTRO, RUNNING, WINNER};
+
+        State activeState = State.INTRO;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Ramp ramp;
         KeyboardState oldState = Keyboard.GetState();
         const int numPlayers = 4;
-        Player[] players;
+        List<Player> players;
         private double newObstacleThreshold = 1500;
         private double elapsedSinceLastObstacle;
         List<Obstacle> obstacles = new List<Obstacle>();
@@ -36,6 +40,7 @@ namespace CatGame
         private Texture2D cross;
         private Viewport[] viewports;
         private Viewport defaultViewport;
+        IntroScreen intro;
 
         SpriteFont scoreFont;
 
@@ -49,11 +54,10 @@ namespace CatGame
             Content.RootDirectory = "Content";
 
             ramp = new Ramp();
-            players = new Player[numPlayers];
-            for (int i = 0; i < numPlayers; i++)
-            {
-                players[i] = new Player((PlayerIndex) i-1 , i == 0, this, CAT_NAMES[i]);
-            }
+            players = new List<Player>();
+            
+            intro = new IntroScreen(this,GraphicsDevice);
+            activeState = State.INTRO;
         }
 
         /// <summary>
@@ -66,18 +70,8 @@ namespace CatGame
         {
             // TODO: Add your initialization logic here
             defaultViewport = GraphicsDevice.Viewport;
-            viewports = new Viewport[numPlayers];
-            for (int i = 0; i < numPlayers; i++)
-            {
-                int width = Window.ClientBounds.Width / 2;
-                int height = Window.ClientBounds.Height / 2;
-                if (numPlayers <= 2)
-                    height *= 2;
-                viewports[i] = new Viewport((i % 2) * width, (i / 2) * height, width, height);
-            }
-            if (numPlayers == 1)
-                viewports[0] = defaultViewport;
-
+            viewports = new Viewport[4];
+            
             base.Initialize();
         }
 
@@ -92,15 +86,13 @@ namespace CatGame
 
             ramp.LoadContent(Content);
             Obstacle.StaticLoadContent(Content);
-            for (int i = 0; i < numPlayers; i++)
-            {
-                players[i].LoadContent(Content);
-            }
+            
             bonusWheel = Content.Load<Texture2D>("BonusWheel");
             heart = Content.Load<Texture2D>("Heart");
             cross = Content.Load<Texture2D>("cross");
             galaxy = Content.Load<Texture2D>("galaxy");
             scoreFont = Content.Load<SpriteFont>("catfont");
+            intro.LoadContent(Content);
         }
 
         /// <summary>
@@ -119,6 +111,23 @@ namespace CatGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            switch (activeState)
+            {
+                case State.INTRO:
+                    intro.Update(gameTime);
+                    break;
+                case State.RUNNING:
+                    updateGame(gameTime);
+                    break;
+                case State.WINNER:
+                    break;
+            }
+
+            base.Update(gameTime);
+        }
+
+        private void updateGame(GameTime gameTime)
+        {
             float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
             // Allows the game to exit
@@ -126,14 +135,14 @@ namespace CatGame
 
             foreach (Player p in players)
                 p.update(gameTime);
-            
-            
+
+
             Keys[] keys = Keyboard.GetState().GetPressedKeys();
             if (keys.Contains(Keys.Escape))
                 this.Exit();
-            
+
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-              //  this.Exit();
+            //  this.Exit();
 
             // Move the obstacles
             List<Obstacle> obstaclesCopy = new List<Obstacle>();
@@ -174,7 +183,7 @@ namespace CatGame
             elapsedSinceLastObstacle += gameTime.ElapsedGameTime.TotalMilliseconds;
             if (elapsedSinceLastObstacle + (randomSource.NextDouble() * 800) >= newObstacleThreshold)
             {
-                obstacles.Add(new Obstacle(randomSource.Next(0,7)));
+                obstacles.Add(new Obstacle(randomSource.Next(0, 7)));
                 elapsedSinceLastObstacle = 0;
                 if (newObstacleThreshold > 900)
                     newObstacleThreshold *= 0.995;
@@ -183,9 +192,6 @@ namespace CatGame
 
             // TODO: Add your update logic here
             ramp.Update(delta);
-            
-
-            base.Update(gameTime);
         }
                 
         private bool isCollision(Obstacle o, Player p)
@@ -202,23 +208,44 @@ namespace CatGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            switch (activeState)
+            {
+                case State.INTRO:
+                    GraphicsDevice.Viewport = defaultViewport;
+
+                    intro.Draw(gameTime,spriteBatch);
+
+                    GraphicsDevice.BlendState = BlendState.Opaque;
+                    GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+                    GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+                    
+                    break;
+                case State.RUNNING:
+                    drawRunning(gameTime);
+                    break;
+            }
+
+            base.Draw(gameTime);
+        }
+
+        private void drawRunning(GameTime gameTime)
+        {
+
             GraphicsDevice.Clear(Color.Black);
             float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
             // Draw each viewport
-            for (int i = 0; i < players.Length; i++)
+            for (int i = 0; i < players.Count(); i++)
             {
                 DrawViewport(i, delta);
             }
 
             GraphicsDevice.Viewport = defaultViewport;
 
-            
+
             GraphicsDevice.BlendState = BlendState.Opaque;
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
-
-            base.Draw(gameTime);
         }
 
         private void DrawViewport(int i, float delta)
@@ -325,6 +352,35 @@ namespace CatGame
                     break;
             }
             
+        }
+
+        internal Player registerPlayer(int controller, bool usesKeyboard)
+        {
+            players.Add(new Player((PlayerIndex)controller,usesKeyboard,this,CAT_NAMES[players.Count()]));
+            Player p = players.Last();
+            p.LoadContent(Content);
+            return p;
+            
+        }
+
+        internal void startGame()
+        {
+           
+            // Nuke old intro screen with its state.
+            intro = new IntroScreen(this,GraphicsDevice);
+
+            for (int i = 0; i < players.Count(); i++)
+            {
+                int width = Window.ClientBounds.Width / 2;
+                int height = Window.ClientBounds.Height / 2;
+                if (players.Count() <= 2)
+                    height *= 2;
+                viewports[i] = new Viewport((i % 2) * width, (i / 2) * height, width, height);
+            }
+            if (players.Count() == 1)
+                viewports[0] = defaultViewport;
+
+            activeState = State.RUNNING;
         }
     }
 }
