@@ -161,7 +161,7 @@ namespace CatGame
                         {
                             if (isCollision(o, p))
                             {                               
-                                    p.takeHit();                                    
+                                    p.takeHit();
                             }
                             else
                             {
