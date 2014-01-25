@@ -12,6 +12,7 @@ namespace CatGame
     {
         public enum Size { SMALL, NORMAL, BIG, HUGE };
         private int lane;
+        private int initialLane;
         private Size size;
         public float distanceTravelled;
         private static Model cubeModel;
@@ -21,10 +22,12 @@ namespace CatGame
         {
             model = cubeModel;
             this.lane = lane;
+            initialLane = lane;
             size = Size.NORMAL;
             distanceTravelled = -100;
-            world = Matrix.CreateTranslation(lane, 0, distanceTravelled);
+            world = Matrix.CreateTranslation(initialLane, 0, distanceTravelled);
             this.collisionTested = false;
+            this.usingFinalState = false;
         }
 
         public override void LoadContent(ContentManager content)
@@ -120,9 +123,9 @@ namespace CatGame
                     newScaleFactor = 5;
                     break;
             }
-            scaleFactor = newScaleFactor;
+            scaleFactor = usingFinalState ? newScaleFactor : 1;
             world = Matrix.CreateScale(scaleFactor, scaleFactor, 1);
-            world *= Matrix.CreateTranslation(lane, 0, distanceTravelled);
+            world *= Matrix.CreateTranslation(usingFinalState ? lane : initialLane, 0, distanceTravelled);
         }
 
         internal bool covers(float queryLane)
@@ -153,6 +156,7 @@ namespace CatGame
         }
 
         public bool collisionTested { get; set; }
+        public bool usingFinalState { get; set; }
 
 
         internal BoundingBox getBoundingBox()
