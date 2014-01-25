@@ -99,8 +99,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Miramo.spritefont">
-      <Name>Miramo</Name>
+    <Compile Include="catfont.spritefont">
+      <Name>catfont</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
