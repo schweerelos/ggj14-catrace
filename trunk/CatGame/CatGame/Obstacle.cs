@@ -13,15 +13,17 @@ namespace CatGame
         public enum Size { SMALL, NORMAL, BIG, HUGE };
 
         private const float TRANSFORM_TIME = 0.2f;
-        private const bool freezeInFinalState = true;
+        private const bool freezeInFinalState = false;
 
         private int lane;
         private int initialLane;
         private Size size;
         public float distanceTravelled;
         private float scaleFactor;
-        private float elapsedTransform;
         private Dictionary<Player, Player.Bonus> playerHasBarfed = new Dictionary<Player, Player.Bonus>();
+        private Dictionary<Player, float> playerElapsedBarf = new Dictionary<Player, float>();
+        private float elapsedScale;
+        private float elapsedTrans;
 
         public Obstacle(int lane) : base("")
         {
@@ -33,7 +35,6 @@ namespace CatGame
             world = Matrix.CreateTranslation(initialLane, 0, distanceTravelled);
             this.collisionTested = false;
             this.usingFinalState = false;
-            elapsedTransform = 0;
         }
 
         public void moveLeft(Player player)
@@ -43,6 +44,7 @@ namespace CatGame
             if (hasBeenHitByPlayer(player))
                 return;
             playerHasBarfed.Add(player, Player.Bonus.MOVE_LEFT);
+            elapsedTrans = 0;
 
             int cutoff = 1;
             switch (size)
@@ -64,7 +66,8 @@ namespace CatGame
                 return;
             if (hasBeenHitByPlayer(player))
                 return;
-            playerHasBarfed.Add(player, Player.Bonus.MOVE_RIGHT); ;
+            playerHasBarfed.Add(player, Player.Bonus.MOVE_RIGHT);
+            elapsedTrans = 0;
 
             int cutoff = 5;
             switch (size)
@@ -87,6 +90,7 @@ namespace CatGame
             if (hasBeenHitByPlayer(player))
                 return;
             playerHasBarfed.Add(player, Player.Bonus.SCALE_UP);
+            elapsedScale = 0;
 
             switch (size)
             {
@@ -113,6 +117,7 @@ namespace CatGame
             if (hasBeenHitByPlayer(player))
                 return;
             playerHasBarfed.Add(player, Player.Bonus.SCALE_DOWN);
+            elapsedScale = 0;
 
             switch (size)
             {
@@ -140,7 +145,7 @@ namespace CatGame
             switch (size)
             {
                 case Size.SMALL:
-                    newScaleFactor = 0.7f;
+                    newScaleFactor = 0.5f;
                     break;
                 case Size.BIG:
                     newScaleFactor = 3;
@@ -154,12 +159,14 @@ namespace CatGame
             //if (usingFinalState)
             //{
                 scaleFactor = newScaleFactor;
-                elapsedTransform = MathHelper.Clamp(elapsedTransform + delta, 0, TRANSFORM_TIME);
             //}
-            float lerpScaleFactor = MathHelper.Lerp(1, scaleFactor, elapsedTransform / TRANSFORM_TIME);
             world = Matrix.Identity;
-            world = Matrix.CreateScale(lerpScaleFactor, lerpScaleFactor, 1);
+            float lerpScaleFactor = MathHelper.Lerp(1, scaleFactor, elapsedScale / TRANSFORM_TIME);
+            world = Matrix.CreateScale(lerpScaleFactor);
             world *= Matrix.CreateTranslation(lane, 0, distanceTravelled);
+
+            elapsedScale = Math.Min(elapsedScale + delta, TRANSFORM_TIME);
+            elapsedTrans = Math.Min(elapsedTrans + delta, TRANSFORM_TIME);
         }
 
         internal bool covers(float queryLane)
@@ -182,11 +189,13 @@ namespace CatGame
         public override void SetEffect(Matrix view, Matrix projection, RainbowLighting lighting, BasicEffect effect, Player activePlayer, GameTime gameTime)
         {
             base.SetEffect(view, projection, lighting, effect, activePlayer, gameTime);
+            effect.DirectionalLight0.Direction = Vector3.Down;
+            effect.DirectionalLight0.DiffuseColor = Vector3.One;
             if (hasBeenHitByPlayer(activePlayer))
             {
                 effect.EmissiveColor = Player.BONUS_COLORS[(int)playerHasBarfed[activePlayer]].ToVector3();
-                float selectedScale = 1 + (float) (Math.Sin(gameTime.TotalGameTime.TotalMilliseconds / 100) * 0.25);
-                effect.World = Matrix.CreateScale(selectedScale) * effect.World;
+                //float selectedScale = 0.9f + (float) (Math.Sin(gameTime.TotalGameTime.TotalMilliseconds / 100) * 0.1);
+                //effect.World = Matrix.CreateScale(selectedScale) * effect.World;
             }
             else
             {
@@ -200,14 +209,19 @@ namespace CatGame
 
         internal BoundingBox getBoundingBox()
         {
-            Vector3 min = Vector3.Transform(new Vector3(0, 0, 0), world);
-            Vector3 max = Vector3.Transform(new Vector3(scaleFactor * 0.9f, scaleFactor * 0.9f, 0.9f), world);
+            Vector3 min = Vector3.Transform(new Vector3(-.45f, -.45f, -.45f), world);
+            Vector3 max = Vector3.Transform(new Vector3(.45f, .45f, .45f), world);
             return new BoundingBox(min, max);
         }
 
         internal bool hasBeenHitByPlayer(Player player)
         {
             return playerHasBarfed.ContainsKey(player);
+        }
+
+        internal float GetScale()
+        {
+            return scaleFactor;
         }
     }
 }
