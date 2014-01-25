@@ -98,7 +98,8 @@ namespace CatGame
 
         public void update(GameTime gameTime)
         {
-            updateInputs();
+            if (!dead)
+                updateInputs();
 
             float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
                         
