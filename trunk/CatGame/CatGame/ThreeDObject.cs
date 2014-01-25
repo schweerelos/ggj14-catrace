@@ -37,6 +37,17 @@ namespace CatGame
 
         public virtual void Draw(float delta, Matrix view, Matrix projection)
         {
+            //foreach (ModelMesh mesh in model.Meshes)
+            //{
+            //    foreach (BasicEffect effect in mesh.Effects)
+            //    {
+            //        effect.EnableDefaultLighting();
+            //        effect.World = world;
+            //        effect.View = view;
+            //        effect.Projection = projection;
+            //    }
+            //    mesh.Draw();
+            //}
             model.Draw(world, view, projection);
         }
         
