@@ -20,7 +20,7 @@ namespace CatGame
         SpriteBatch spriteBatch;
         Ramp ramp;
         KeyboardState oldState = Keyboard.GetState();
-        const int numPlayers = 2;
+        const int numPlayers = 1;
         Player[] players;
         const double newObstacleThreshold = 1500;
         private double elapsedSinceLastObstacle;
@@ -298,7 +298,7 @@ namespace CatGame
             candidates.Sort((a, b) => a.distanceTravelled.CompareTo(b.distanceTravelled));
             
             Obstacle ob = candidates.Last();
-            Console.WriteLine("Barf " + ob.distanceTravelled);
+            
             switch (player.getActiveBonus())
             {
                 case Player.Bonus.SCALE_UP:

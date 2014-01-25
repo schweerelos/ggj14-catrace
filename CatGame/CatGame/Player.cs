@@ -11,7 +11,7 @@ namespace CatGame
 {
     class Player : ThreeDObject
     {
-        public enum Bonus { SCALE_UP, MOVE_RIGHT, SCALE_DOWN, MOVE_LEFT, LAST };
+        public enum Bonus { SCALE_UP, MOVE_LEFT, SCALE_DOWN, MOVE_RIGHT, LAST };
         Bonus activeBonus = Bonus.SCALE_UP;
 
         private PlayerIndex playerIndex;
@@ -84,6 +84,7 @@ namespace CatGame
 
         public void barf()
         {
+            Console.WriteLine("Barf>> " + activeBonus);
             gameEngine.playerBarfsBonus(this);
         }
 
@@ -126,10 +127,13 @@ namespace CatGame
                     this.moveRight();
                 if (newState.IsKeyDown(Keys.Space) && !oldKeyboardState.IsKeyDown(Keys.Space))
                     this.jump();
+
                 if (newState.IsKeyDown(Keys.LeftControl) && !oldKeyboardState.IsKeyDown(Keys.LeftControl))
                     this.barf();
+
                 if (newState.IsKeyDown(Keys.RightControl) && !oldKeyboardState.IsKeyDown(Keys.RightControl))
                     this.barf();
+
                 if (newState.IsKeyDown(Keys.D) && !oldKeyboardState.IsKeyDown(Keys.D))
                 {
                     this.activeBonus++;
@@ -139,8 +143,8 @@ namespace CatGame
                 if (newState.IsKeyDown(Keys.A) && !oldKeyboardState.IsKeyDown(Keys.A))
                 {
                     this.activeBonus--;
-                    if (activeBonus == Player.Bonus.LAST)
-                        activeBonus = Player.Bonus.SCALE_UP;
+                    if (activeBonus < 0)
+                        activeBonus = Player.Bonus.SCALE_DOWN;
                 }
 
                 
