@@ -27,6 +27,10 @@ namespace CatGame
         List<Obstacle> obstacles = new List<Obstacle>();
 
         Random randomSource = new Random();
+        private int BONUS_WHEEL = 128;
+        Texture2D bonusWheel;
+        private int HEART_SIZE = 32;
+        private Texture2D heart;
 
         public Game1()
         {
@@ -72,6 +76,8 @@ namespace CatGame
             {
                 players[i].LoadContent(Content);
             }
+            bonusWheel = Content.Load<Texture2D>("BonusWheel");
+            heart = Content.Load<Texture2D>("Heart");
         }
 
         /// <summary>
@@ -183,15 +189,42 @@ namespace CatGame
             }
 
             // Sprite mode
-            spriteBatch.Begin();
-            for (int i = 0; i < players.Length; i++)
-            {
-                Rectangle position = new Rectangle(0, 0, Player.AVATAR_SIZE, Player.AVATAR_SIZE);
-                //spriteBatch.Draw(players[i].GetTexture(), position, Color.White);
-            }
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
+            DrawGUI();
             spriteBatch.End();
 
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
             base.Draw(gameTime);
+        }
+
+        private void DrawGUI()
+        {
+            for (int i = 0; i < players.Length; i++)
+            {
+                // Player avatar
+                int x = 10 + (i % 2) * GraphicsDevice.Viewport.Width / 2;
+                int y = 10;
+                if (i >= 2)
+                    y += GraphicsDevice.Viewport.Height / 2;
+                Rectangle position = new Rectangle(x, y, Player.AVATAR_SIZE, Player.AVATAR_SIZE);
+                spriteBatch.Draw(players[i].GetTexture(), position, Color.White);
+
+                // Draw hearts
+                for (int j = 0; j < players[i].lives; j++ )
+                {
+                    Rectangle heartRect = new Rectangle(x + Player.AVATAR_SIZE + 10 + (j % 3) * HEART_SIZE, y + j / 3 * HEART_SIZE, HEART_SIZE, HEART_SIZE);
+                    spriteBatch.Draw(heart, heartRect, Color.White);
+                }
+
+                // Draw bonus wheel
+                Player.Bonus selectedBonus = players[i].getBonus();
+                float rotation = (int) selectedBonus / (float) Player.Bonus.LAST;
+                Rectangle bonusRect = new Rectangle(x, y + Player.AVATAR_SIZE + 10, BONUS_WHEEL, BONUS_WHEEL);
+                spriteBatch.Draw(bonusWheel, bonusRect, null, Color.White, rotation, Vector2.Zero, SpriteEffects.None, 0);
+            }
         }
     }
 }
