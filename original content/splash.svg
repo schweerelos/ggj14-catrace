@@ -161,7 +161,8 @@
          y="249.38628"
          style="font-size:144px;font-weight:bold;fill:#ffffff;fill-opacity:1;-inkscape-font-specification:Lao UI Bold;font-family:Lao UI;font-style:normal;font-stretch:normal;font-variant:normal">Cat Racer</tspan></text>
     <g
-       id="g4088">
+       id="g4088"
+       transform="translate(0,38)">
       <text
          sodipodi:linespacing="125%"
          id="text3770"
@@ -174,16 +175,16 @@
            y="395.85614"
            x="51.619522"
            sodipodi:role="line">Game pad</tspan><tspan
-           id="tspan3774"
+           id="tspan3786"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Lao UI;-inkscape-font-specification:Lao UI Bold"
            y="455.43643"
            x="51.619522"
-           sodipodi:role="line">To join:</tspan><tspan
-           id="tspan3786"
+           sodipodi:role="line">Join: Press START</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Lao UI;-inkscape-font-specification:Lao UI Bold"
            y="505.43643"
            x="51.619522"
-           sodipodi:role="line">Press START</tspan><tspan
+           sodipodi:role="line"
+           id="tspan3155">Credits: Press BACK</tspan><tspan
            id="tspan6469"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Lao UI;-inkscape-font-specification:Lao UI Bold"
            y="555.43646"
@@ -231,16 +232,16 @@
            y="395.85614"
            x="1238.6539"
            sodipodi:role="line">Keyboard</tspan><tspan
-           id="tspan3774-4"
+           id="tspan3786-0"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Lao UI;-inkscape-font-specification:Lao UI Bold"
            y="455.43643"
            x="1238.6539"
-           sodipodi:role="line">To join:</tspan><tspan
-           id="tspan3786-0"
+           sodipodi:role="line">Join: ENTER or SPACE</tspan><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Lao UI;-inkscape-font-specification:Lao UI Bold"
            y="505.43643"
            x="1238.6539"
-           sodipodi:role="line">Press ENTER or SPACE</tspan><tspan
+           sodipodi:role="line"
+           id="tspan3159">Credits: C</tspan><tspan
            id="tspan3776-9"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Lao UI;-inkscape-font-specification:Lao UI Bold"
            y="555.43646"
