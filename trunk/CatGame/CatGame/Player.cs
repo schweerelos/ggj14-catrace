@@ -25,7 +25,7 @@ namespace CatGame
         private int bounce;
 
         private float speed = 7f;
-        
+        private int startBounce = 2;
         private float yAccel = 0;
         private const float gravity = 20.82f;
         private const float jumpAccel = 9.82f;
@@ -67,7 +67,7 @@ namespace CatGame
         {
             startingPos = currentPos;
 
-            if (targetPos.X >= 1)
+            if (targetPos.X >= 1 && (currentPos.Y == 0 || bounce < startBounce))
                 targetPos.X--;
             
         }
@@ -76,7 +76,7 @@ namespace CatGame
         {
             startingPos = currentPos;
 
-            if (targetPos.X <= 5)
+            if (targetPos.X <= 5  && (currentPos.Y == 0 || bounce < startBounce))
                 targetPos.X++;
         }
 
@@ -85,7 +85,7 @@ namespace CatGame
             if (currentPos.Y <= 0)
             {
                 yAccel = jumpAccel;
-                bounce = 2;
+                bounce = startBounce;
             }
         }
 
@@ -161,25 +161,25 @@ namespace CatGame
             else
             {
                 GamePadState newState = GamePad.GetState(playerIndex);
-
-                if (newState.Buttons.LeftShoulder == ButtonState.Pressed &&
-                    oldGamePadState.Buttons.LeftShoulder == ButtonState.Released)
+                
+                if (newState.DPad.Left == ButtonState.Pressed &&
+                    oldGamePadState.DPad.Left == ButtonState.Released)
                     this.moveLeft();
-                if (newState.Buttons.RightShoulder == ButtonState.Pressed &&
-                    oldGamePadState.Buttons.RightShoulder == ButtonState.Released)
+                if (newState.DPad.Right == ButtonState.Pressed &&
+                    oldGamePadState.DPad.Right == ButtonState.Released)
                     this.moveRight();
                 if (newState.Buttons.A == ButtonState.Pressed &&
                     oldGamePadState.Buttons.A == ButtonState.Released)
                     this.jump();
-                if (newState.Buttons.Y == ButtonState.Pressed &&
-                    oldGamePadState.Buttons.Y == ButtonState.Released)
-                    this.barf();
-                if (newState.Buttons.B == ButtonState.Pressed &&
-                    oldGamePadState.Buttons.B == ButtonState.Released)
-                    this.rotateActionsRight();
                 if (newState.Buttons.X == ButtonState.Pressed &&
                     oldGamePadState.Buttons.X == ButtonState.Released)
+                    this.barf();
+                if (newState.Buttons.RightShoulder == ButtonState.Pressed &&
+                    oldGamePadState.Buttons.RightShoulder == ButtonState.Released)
                     this.rotateActionsLeft();
+                if (newState.Buttons.LeftShoulder == ButtonState.Pressed &&
+                    oldGamePadState.Buttons.LeftShoulder == ButtonState.Released)
+                    this.rotateActionsRight();
                 oldGamePadState = newState;
             }
         }
