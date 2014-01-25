@@ -47,7 +47,6 @@ namespace CatGame
         List<Player> deadPlayers;
         VictoryScreen winnerScreen;
 
-        SoundEffect musicEffect;
         Song music;
         SpriteFont scoreFont;
         private SoundEffect hitSound;

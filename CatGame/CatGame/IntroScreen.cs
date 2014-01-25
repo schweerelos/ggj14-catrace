@@ -85,7 +85,7 @@ namespace CatGame
             KeyboardState newKeyboardState = Keyboard.GetState();
             switch (state)
             {
-                case IntroState.CREDITS:
+               case IntroState.CREDITS:
                     if ((newKeyboardState.IsKeyDown(Keys.C) && !oldKeyboardState.IsKeyDown(Keys.C)) )
                     {
                         state = IntroState.HELP;
@@ -108,6 +108,12 @@ namespace CatGame
                     {
                         state = IntroState.CREDITS;
                     }
+                    if ((newKeyboardState.IsKeyDown(Keys.Space) && !oldKeyboardState.IsKeyDown(Keys.Space)) ||
+                       (newKeyboardState.IsKeyDown(Keys.Enter) && !oldKeyboardState.IsKeyDown(Keys.Enter)))
+                    {
+                        state = IntroState.REGISTERING;
+                    }
+                    
                     
                     for (int i = 0; i < 4; i++)
                     {
@@ -117,19 +123,7 @@ namespace CatGame
                         {
                             state = IntroState.CREDITS;
                         }
-                        oldGamePadStates[i] = newGamePadState;
-                    }
-
-
-                    if ((newKeyboardState.IsKeyDown(Keys.Space) && !oldKeyboardState.IsKeyDown(Keys.Space)) ||
-                        (newKeyboardState.IsKeyDown(Keys.Enter) && !oldKeyboardState.IsKeyDown(Keys.Enter)) )
-                    {
-                        state = IntroState.REGISTERING;
-                    }
-                    
-                    for (int i = 0; i < 4; i++)
-                    {
-                        GamePadState newGamePadState = GamePad.GetState((PlayerIndex)i);
+                       
                         if (newGamePadState.IsConnected && newGamePadState.Buttons.Start == ButtonState.Pressed &&
                             oldGamePadStates[i].Buttons.Start == ButtonState.Released)
                         {
@@ -137,7 +131,10 @@ namespace CatGame
                         }
                         oldGamePadStates[i] = newGamePadState;
                     }
+
                     break;
+                   
+                    
                 case IntroState.REGISTERING:
                     
                     if ((newKeyboardState.IsKeyDown(Keys.Space) && !oldKeyboardState.IsKeyDown(Keys.Space)) ||
