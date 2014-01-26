@@ -165,7 +165,7 @@ namespace CatGame
             foreach (Obstacle o in obstacles)
             {
                 o.Update(delta);
-                if (o.hasReached(0))
+                if (o.hasReached(0) && !o.spiralling)
                 {
                     if (!o.collisionTested)
                     {
@@ -174,6 +174,7 @@ namespace CatGame
                             if (isCollision(o, p) && o.GetScale() >= 1)
                             {                               
                                     p.takeHit();
+                                    o.setSpiral();
                                     if (p.dead)
                                     {
                                         if (!deadPlayers.Contains(p))
@@ -213,7 +214,7 @@ namespace CatGame
                 {
                     o.usingFinalState = true;
                 }
-                if (!o.hasReached(3))
+                if (!o.canRemove())
                 {
                     // Next round will only have those obstacles that aren't at the bottom yet
                     obstaclesCopy.Add(o);
@@ -311,7 +312,7 @@ namespace CatGame
             // Draw stars
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             spriteBatch.Draw(galaxy, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            spriteBatch.Draw(nyan, new Rectangle(GraphicsDevice.Viewport.Width / 2 + 20, GraphicsDevice.Viewport.Height / 2 - 15, nyan.Width / 2, nyan.Height / 2), Color.White);
+            spriteBatch.Draw(nyan, new Rectangle(GraphicsDevice.Viewport.Width / 2 + 10, GraphicsDevice.Viewport.Height / 2 - 15, nyan.Width / 2, nyan.Height / 2), Color.White);
             spriteBatch.End();
 
             GraphicsDevice.BlendState = BlendState.Opaque;

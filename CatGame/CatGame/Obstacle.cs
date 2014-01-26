@@ -167,6 +167,12 @@ namespace CatGame
 
             elapsedScale = Math.Min(elapsedScale + delta, TRANSFORM_TIME);
             elapsedTrans = Math.Min(elapsedTrans + delta, TRANSFORM_TIME);
+
+            // Obstacle has been hit. Send it off the screen
+            if (spiralling)
+            {
+                
+            }
         }
 
         internal bool covers(float queryLane)
@@ -222,6 +228,18 @@ namespace CatGame
         internal float GetScale()
         {
             return scaleFactor;
+        }
+
+        internal void setSpiral()
+        {
+            spiralling = true;
+        }
+
+        public bool spiralling { get; set; }
+
+        internal bool canRemove()
+        {
+            throw new NotImplementedException();
         }
     }
 }
