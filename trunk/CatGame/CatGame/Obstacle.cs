@@ -241,7 +241,7 @@ namespace CatGame
         {
             spiralling = true;
             
-            spiralAcceleration = new Vector3(random.Next(20) - 10, 10 + random.Next(10), -15 - random.Next(10));
+            spiralAcceleration = new Vector3(random.Next(40) - 20, 10 + random.Next(5), 1);
             spiralPosition = new Vector3(lane, 0, distanceTravelled);
             lane = -1;
         }
