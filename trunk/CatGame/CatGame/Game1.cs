@@ -104,9 +104,15 @@ namespace CatGame
             nyan = Content.Load<Texture2D>("rainbow-kiwi");
             scoreFont = Content.Load<SpriteFont>("catfont");
             intro.LoadContent(Content);
-            hitSound = Content.Load<SoundEffect>("meow");
-            music = Content.Load<Song>("ForAGIng");
-            //music = musicEffect.CreateInstance();
+            try
+            {
+                hitSound = Content.Load<SoundEffect>("meow");
+                music = Content.Load<Song>("ForAGIng");
+            }
+            catch (NoAudioHardwareException)
+            {
+                // ignore no audio
+            }
         }
 
         /// <summary>
@@ -230,7 +236,8 @@ namespace CatGame
                                     }
                                     else
                                     {
-                                        hitSound.Play();
+                                        if (hitSound != null)
+                                            hitSound.Play();
                                     }
                             }
                             else
@@ -513,7 +520,8 @@ namespace CatGame
                 viewports[0] = defaultViewport;
 
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Play(music);
+            if (music != null)
+                MediaPlayer.Play(music);
             
             activeState = State.RUNNING;
         }
