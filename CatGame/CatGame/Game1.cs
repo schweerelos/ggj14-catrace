@@ -174,8 +174,7 @@ namespace CatGame
                             if (isCollision(o, p) && o.GetScale() >= 1)
                             {                               
                                     p.takeHit();
-                                    hitSound.Play();
-                                    if (p.dead == true)
+                                    if (p.dead)
                                     {
                                         if (!deadPlayers.Contains(p))
                                             deadPlayers.Add(p);
@@ -190,12 +189,16 @@ namespace CatGame
                                                     break;
                                                 }
                                             }
-                                            winnerScreen = new VictoryScreen(this, pNo+1);
+                                            winnerScreen = new VictoryScreen(this, pNo + 1);
                                             MediaPlayer.Stop();
-                                            
+
                                             activeState = State.WINNER;
 
                                         }
+                                    }
+                                    else
+                                    {
+                                        hitSound.Play();
                                     }
                             }
                             else
