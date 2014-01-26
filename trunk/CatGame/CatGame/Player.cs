@@ -14,7 +14,7 @@ namespace CatGame
     {
         public enum Bonus { SCALE_UP, MOVE_LEFT, SCALE_DOWN, MOVE_RIGHT, LAST };
         public static Color[] BONUS_COLORS = { Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.White };
-        public static Color[] PLAYER_COLORS = { Color.White, Color.Cyan, Color.LightGreen, Color.LightSalmon };
+        public static Color[] PLAYER_COLORS = { Color.Cyan, Color.LawnGreen, Color.Violet, Color.Yellow };
         Bonus activeBonus = Bonus.SCALE_UP;
         public Bonus prevBonus = Bonus.SCALE_UP;
 
@@ -256,6 +256,7 @@ namespace CatGame
             effect.DirectionalLight2.Enabled = true;
             effect.DirectionalLight2.Direction = Vector3.Down;
             effect.DirectionalLight2.DiffuseColor = Vector3.One * .5f;
+            effect.SpecularPower = 1000;
             if ((int) playerIndex >= -1)
                 effect.AmbientLightColor = PLAYER_COLORS[(int) playerIndex + 1].ToVector3();
         }
