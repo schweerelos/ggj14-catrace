@@ -17,6 +17,7 @@ namespace CatGame
         public static Color[] PLAYER_COLORS = { Color.Cyan, Color.LawnGreen, Color.Violet, Color.Yellow };
         Bonus activeBonus = Bonus.SCALE_UP;
         public Bonus prevBonus = Bonus.SCALE_UP;
+        private float hurtTime = 0;
 
         public PlayerIndex playerIndex;
         KeyboardState oldKeyboardState;
@@ -130,6 +131,8 @@ namespace CatGame
             if (turnTime < 0)
                 turnTime = MathHelper.Clamp(turnTime + delta / 0.1f, -4, 0);
 
+            hurtTime -= delta;
+
             world = Matrix.CreateTranslation(currentPos);
         }
 
@@ -221,6 +224,7 @@ namespace CatGame
                 this.dead = true;
             }
             lives--;
+            hurtTime = 1;
         }
 
         internal void incrementSurvivedObstacles()
@@ -260,8 +264,16 @@ namespace CatGame
             effect.DirectionalLight2.Direction = Vector3.Down;
             effect.DirectionalLight2.DiffuseColor = Vector3.One * .5f;
             effect.SpecularPower = 1000;
-            effect.AmbientLightColor = PLAYER_COLORS[this.playerNumber].ToVector3();
 
+            
+
+            if (hurtTime > 0)
+                effect.EmissiveColor = Color.Red.ToVector3() * hurtTime;
+            else
+            {
+                effect.EmissiveColor = Vector3.Zero;
+                effect.AmbientLightColor = PLAYER_COLORS[this.playerNumber].ToVector3();
+            }
         }
     }
 
