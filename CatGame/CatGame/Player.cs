@@ -272,7 +272,7 @@ namespace CatGame
             else
             {
                 effect.EmissiveColor = Vector3.Zero;
-                effect.AmbientLightColor = PLAYER_COLORS[this.playerNumber].ToVector3();
+               effect.AmbientLightColor = PLAYER_COLORS[this.playerNumber].ToVector3();
             }
         }
     }
