@@ -62,6 +62,7 @@ namespace CatGame
             effect.SpecularPower = 10;
             effect.SpecularColor = lighting.GetColor();
             effect.AmbientLightColor = Color.DarkGray.ToVector3();
+            effect.PreferPerPixelLighting = true;
         }
         
     }
