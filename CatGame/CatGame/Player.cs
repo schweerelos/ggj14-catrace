@@ -40,8 +40,9 @@ namespace CatGame
         
         
         private float turnTime = 0;
+        int playerNumber;
 
-        public Player(PlayerIndex playerIndex, bool usesKeyboard, Game1 gameEngine, String textureFile) : base("cat") {
+        public Player(PlayerIndex playerIndex, bool usesKeyboard, Game1 gameEngine, String textureFile, int playerNumber) : base("cat") {
 
             startingPos = new Vector3(3,0,0);
             targetPos = startingPos;
@@ -57,6 +58,8 @@ namespace CatGame
                 oldKeyboardState = Keyboard.GetState();
             else
                 oldGamePadState = GamePad.GetState(playerIndex);
+
+            this.playerNumber = playerNumber;
         }
 
         public override void LoadContent(ContentManager content)
@@ -257,8 +260,7 @@ namespace CatGame
             effect.DirectionalLight2.Direction = Vector3.Down;
             effect.DirectionalLight2.DiffuseColor = Vector3.One * .5f;
             effect.SpecularPower = 1000;
-            if ((int) playerIndex >= -1)
-                effect.AmbientLightColor = PLAYER_COLORS[(int) playerIndex + 1].ToVector3();
+            effect.AmbientLightColor = PLAYER_COLORS[this.playerNumber].ToVector3();
 
         }
     }

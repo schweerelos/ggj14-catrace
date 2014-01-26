@@ -413,7 +413,7 @@ namespace CatGame
 
         internal Player registerPlayer(int controller, bool usesKeyboard)
         {
-            players.Add(new Player((PlayerIndex)controller,usesKeyboard,this,CAT_NAMES[players.Count()]));
+            players.Add(new Player((PlayerIndex)controller,usesKeyboard,this,CAT_NAMES[players.Count()],players.Count()));
             Player p = players.Last();
             p.LoadContent(Content);
             return p;
