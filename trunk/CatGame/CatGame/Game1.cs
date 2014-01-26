@@ -520,8 +520,14 @@ namespace CatGame
                 viewports[0] = defaultViewport;
 
             MediaPlayer.IsRepeating = true;
-            if (music != null)
-                MediaPlayer.Play(music);
+            try
+            {
+                if (music != null)
+                    MediaPlayer.Play(music);
+            }
+            catch (Exception)
+            {
+            }
             
             activeState = State.RUNNING;
         }
