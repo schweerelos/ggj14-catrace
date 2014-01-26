@@ -23,11 +23,6 @@ namespace CatGame
         {
             model = content.Load<Model>(filename);
             // Turn on default lighting in the BasicEffects used by the model
-            foreach (ModelMesh mesh in model.Meshes)
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                }
         }
 
         public virtual void Update(float delta)
