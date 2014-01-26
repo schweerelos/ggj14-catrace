@@ -40,9 +40,6 @@ namespace CatGame
         
         
         private float turnTime = 0;
-        public const float BEAT_FREQ = 60f/130;
-        public const float OFFSET = .15f;
-        public const float BOUNCE_AMOUNT = .2f;
 
         public Player(PlayerIndex playerIndex, bool usesKeyboard, Game1 gameEngine, String textureFile) : base("cat") {
 
