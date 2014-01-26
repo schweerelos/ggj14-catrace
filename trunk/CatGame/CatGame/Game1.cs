@@ -165,7 +165,7 @@ namespace CatGame
             foreach (Obstacle o in obstacles)
             {
                 o.Update(delta);
-                if (o.hasReached(0) && !o.spiralling)
+                if (o.hasReached(0) && !o.isSpiralling())
                 {
                     if (!o.collisionTested)
                     {

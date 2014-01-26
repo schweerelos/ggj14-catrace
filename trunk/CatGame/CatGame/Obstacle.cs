@@ -24,6 +24,8 @@ namespace CatGame
         private Dictionary<Player, float> playerElapsedBarf = new Dictionary<Player, float>();
         private float elapsedScale;
         private float elapsedTrans;
+        private Random random = new Random();
+        private bool spiralling;
 
         public Obstacle(int lane) : base("")
         {
@@ -171,6 +173,7 @@ namespace CatGame
             // Obstacle has been hit. Send it off the screen
             if (spiralling)
             {
+                Vector3 boost = new Vector3(2, 6, -2);
                 
             }
         }
@@ -230,16 +233,19 @@ namespace CatGame
             return scaleFactor;
         }
 
-        internal void setSpiral()
+        public void setSpiral()
         {
             spiralling = true;
         }
 
-        public bool spiralling { get; set; }
+        public bool isSpiralling()
+        {
+            return spiralling;
+        }
 
         internal bool canRemove()
         {
-            throw new NotImplementedException();
+            return hasReached(3);
         }
     }
 }
