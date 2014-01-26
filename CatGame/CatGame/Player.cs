@@ -27,6 +27,7 @@ namespace CatGame
         private Vector3 targetPos;
         private Game1 gameEngine;
         private int bounce;
+        
 
         private float speed = 7f;
         private int startBounce = 2;
@@ -38,8 +39,11 @@ namespace CatGame
         public const int AVATAR_SIZE = 128;
         private Texture2D texture;
         private String textureFile;
-        
-        
+
+        private double barfThreshold = 250;
+
+        private double elapsedSinceLastBarf;
+
         private float turnTime = 0;
         int playerNumber;
 
@@ -97,8 +101,12 @@ namespace CatGame
 
         public void barf()
         {
-            Console.WriteLine("Barf>> " + activeBonus);
-            gameEngine.playerBarfsBonus(this);
+            if (elapsedSinceLastBarf > barfThreshold)
+            {
+                Console.WriteLine("Barf>> " + activeBonus);
+                gameEngine.playerBarfsBonus(this);
+                elapsedSinceLastBarf = 0;
+            }
         }
 
         public bool usesKeyboard { get; set; }
@@ -107,6 +115,8 @@ namespace CatGame
         {
             if (!dead)
                 updateInputs();
+            elapsedSinceLastBarf += gameTime.ElapsedGameTime.TotalMilliseconds;
+            
 
             float delta = gameTime.ElapsedGameTime.Milliseconds / 1000f;
                         
