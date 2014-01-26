@@ -9,8 +9,8 @@ namespace CatGame
     class Barf : ThreeDObject
     {
 
-        Vector3 currentPosition;
-        const float speed = 5;
+        public Vector3 currentPosition;
+        const float speed = 20;
         public Player spawner;
         public Player.Bonus type;
         
@@ -39,8 +39,10 @@ namespace CatGame
 
         internal BoundingBox getBoundingBox()
         {
-            Vector3 min = currentPosition - new Vector3(0.45f, 0.45f, 0.45f);
-            Vector3 max = currentPosition + new Vector3(0.45f, 0.45f, 0.45f);
+            Vector3 min = Vector3.Transform(new Vector3(-.45f, -.45f, -.45f), world);
+            Vector3 max = Vector3.Transform(new Vector3(.45f, .45f, .45f), world);
+            /*Vector3 min = currentPosition - new Vector3(0.45f, 0.45f, 0.45f);
+            Vector3 max = currentPosition + new Vector3(0.45f, 0.45f, 0.45f);*/
             return new BoundingBox(min, max);
         }
     }

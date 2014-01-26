@@ -171,9 +171,29 @@ namespace CatGame
 
             // Move the obstacles
             List<Obstacle> obstaclesCopy = new List<Obstacle>();
+            List<Barf> barfsToRemove = new List<Barf>();
             foreach (Obstacle o in obstacles)
             {
                 o.Update(delta);
+
+                foreach (Player p in players)
+                {
+                    foreach (Barf b in barfDict[p])
+                    {
+                        if (isCollision(o, b) && !o.isSpiralling())
+                        {
+
+                            handleBarfCollision(o, b);
+                            barfsToRemove.Add(b);
+                        }
+                        if (b.currentPosition.Z < -100)
+                        {
+                            barfsToRemove.Add(b);
+                        }
+
+                    }
+                }
+
                 if (o.hasReached(0) && !o.isSpiralling())
                 {
                     if (!o.collisionTested)
@@ -181,12 +201,6 @@ namespace CatGame
                         foreach (Player p in players)
                         {
 
-                            foreach (Barf b in barfDict[p])
-                            {
-                                if (isCollision(o,b)) {
-
-                                }
-                            }
 
                             if (isCollision(o, p) && o.GetScale() >= 1)
                             {                               
@@ -256,13 +270,23 @@ namespace CatGame
             ramp.Update(delta);
 
             rainbowLighting.Update(delta);
+
+
+            foreach(Barf b in barfsToRemove)
+            {
+                foreach (Player p in players)
+                {
+                    barfDict[p].Remove(b);
+
+                }   
+            }
         }
 
         private bool isCollision(Obstacle o, Barf b)
         {
             BoundingBox obstacleBounds = o.getBoundingBox();
             BoundingBox barfBounds = b.getBoundingBox();
-
+            
             return (obstacleBounds.Intersects(barfBounds));
         }
                 
