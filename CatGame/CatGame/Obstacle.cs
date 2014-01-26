@@ -26,6 +26,8 @@ namespace CatGame
         private float elapsedTrans;
         private Random random = new Random();
         private bool spiralling;
+        private Vector3 spiralPosition;
+        private Vector3 spiralAcceleration;
 
         public Obstacle(int lane) : base("")
         {
@@ -158,14 +160,11 @@ namespace CatGame
             }
 
             scaleFactor = 1;
-            //if (usingFinalState)
-            //{
-                scaleFactor = newScaleFactor;
-            //}
+            scaleFactor = newScaleFactor;
+
             world = Matrix.Identity;
             float lerpScaleFactor = MathHelper.Lerp(1, scaleFactor, elapsedScale / TRANSFORM_TIME);
             world = Matrix.CreateScale(lerpScaleFactor);
-            world *= Matrix.CreateTranslation(lane, 0, distanceTravelled);
 
             elapsedScale = Math.Min(elapsedScale + delta, TRANSFORM_TIME);
             elapsedTrans = Math.Min(elapsedTrans + delta, TRANSFORM_TIME);
@@ -173,8 +172,13 @@ namespace CatGame
             // Obstacle has been hit. Send it off the screen
             if (spiralling)
             {
-                Vector3 boost = new Vector3(2, 6, -2);
-                
+                world *= Matrix.CreateTranslation(spiralPosition);
+                spiralPosition += spiralAcceleration * delta;
+                spiralAcceleration += new Vector3(0, -9.8f, 0) * delta;
+            }
+            else
+            {
+                world *= Matrix.CreateTranslation(lane, 0, distanceTravelled);
             }
         }
 
@@ -236,6 +240,10 @@ namespace CatGame
         public void setSpiral()
         {
             spiralling = true;
+            
+            spiralAcceleration = new Vector3(random.Next(20) - 10, 10 + random.Next(10), -15 - random.Next(10));
+            spiralPosition = new Vector3(lane, 0, distanceTravelled);
+            lane = -1;
         }
 
         public bool isSpiralling()
@@ -245,7 +253,7 @@ namespace CatGame
 
         internal bool canRemove()
         {
-            return hasReached(3);
+            return (!spiralling && hasReached(3)) || (spiralling && spiralPosition.Y < -50);
         }
     }
 }
