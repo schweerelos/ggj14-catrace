@@ -230,7 +230,7 @@ namespace CatGame
                 newObst.LoadContent(Content);
                 obstacles.Add(newObst);
                 elapsedSinceLastObstacle = 0;
-                if (newObstacleThreshold > 900)
+                if (newObstacleThreshold > 800)
                     newObstacleThreshold *= 0.995;
                 //Console.WriteLine("obstacle threshold: " + newObstacleThreshold);
             }

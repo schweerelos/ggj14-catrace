@@ -117,7 +117,7 @@
          style="color:#000000;fill:none;stroke:#a349a4;stroke-width:2.27925324;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     </g>
     <rect
-       style="color:#000000;fill:#ffeeaa;fill-opacity:1;fill-rule:nonzero;stroke:#a05a2c;stroke-width:5.77683114999999960;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:#ffeeaa;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:5.77683114999999960;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect3799"
        width="150.67047"
        height="98.225975"
@@ -149,14 +149,14 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
     <path
-       style="fill:none;stroke:#a05a2c;stroke-width:5.77683114999999960px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:5.77683114999999960px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
        d="m 248.93157,1025.0196 -3.90739,13.9537 32.38115,2.4425"
        id="path3819"
        inkscape:connector-curvature="0"
        inkscape:transform-center-x="-12.818301"
        inkscape:transform-center-y="8.1496481" />
     <path
-       style="fill:none;stroke:#a05a2c;stroke-width:5.77683114999999960px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:5.77683114999999960px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
        d="m 239.02088,1027.3825 -6.82949,12.7806 31.08883,9.3802"
        id="path3819-0"
        inkscape:connector-curvature="0"
