@@ -47,6 +47,10 @@ namespace CatGame
             }
         }
 
+        public const float BEAT_FREQ = 60f / 130;
+        public const float OFFSET = .15f;
+        public const float BOUNCE_AMOUNT = .2f;
+
         public virtual void SetEffect(Matrix view, Matrix projection, RainbowLighting lighting, BasicEffect effect, Player activePlayer, GameTime gameTime)
         {
             effect.World = world;
@@ -63,6 +67,12 @@ namespace CatGame
             effect.SpecularColor = lighting.GetColor();
             effect.AmbientLightColor = Color.DarkGray.ToVector3();
             effect.PreferPerPixelLighting = true;
+
+
+            // Bounce with music
+            float bounceFreq = (float)(MathHelper.Pi * gameTime.TotalGameTime.TotalMilliseconds / 1000f / BEAT_FREQ + OFFSET);
+            Matrix bounceMatrix = Matrix.CreateTranslation((float)Math.Cos(bounceFreq) * BOUNCE_AMOUNT, (float)Math.Abs(Math.Sin(bounceFreq)) * BOUNCE_AMOUNT, 0);
+            effect.World = bounceMatrix * effect.World;
         }
         
     }

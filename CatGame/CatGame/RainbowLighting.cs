@@ -10,7 +10,7 @@ namespace CatGame
     {
         private static Color[] RAINBOW_COLORS = { Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo, Color.Violet };
         private float elapsed = 0;
-        private const float CYCLE_TIME = 1f;
+        private const float CYCLE_TIME = 60/130f * 2;
         private const float MOVEMENT_TIME = .4f;
 
         public RainbowLighting()
