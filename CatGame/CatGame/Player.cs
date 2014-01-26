@@ -22,7 +22,7 @@ namespace CatGame
         public PlayerIndex playerIndex;
         KeyboardState oldKeyboardState;
         GamePadState oldGamePadState;
-        private Vector3 currentPos;
+        public Vector3 currentPos;
         private Vector3 startingPos;
         private Vector3 targetPos;
         private Game1 gameEngine;

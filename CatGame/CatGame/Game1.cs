@@ -50,6 +50,7 @@ namespace CatGame
         Song music;
         SpriteFont scoreFont;
         private SoundEffect hitSound;
+        Dictionary<Player, List<Barf>> barfDict;
 
         public Game1()
         {
@@ -64,6 +65,7 @@ namespace CatGame
             players = new List<Player>();
             deadPlayers = new List<Player>();
             rainbowLighting = new RainbowLighting();
+            barfDict = new Dictionary<Player, List<Barf>>();
             
             intro = new IntroScreen(this);
             activeState = State.INTRO;
@@ -152,9 +154,16 @@ namespace CatGame
             KeyboardState newState = Keyboard.GetState();
 
             foreach (Player p in players)
+            {
                 p.update(gameTime);
 
+                foreach (Barf b in barfDict[p])
+                {
+                    b.Update(delta);
+                }
+            }
 
+            
             
 
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
@@ -171,6 +180,14 @@ namespace CatGame
                     {
                         foreach (Player p in players)
                         {
+
+                            foreach (Barf b in barfDict[p])
+                            {
+                                if (isCollision(o,b)) {
+
+                                }
+                            }
+
                             if (isCollision(o, p) && o.GetScale() >= 1)
                             {                               
                                     p.takeHit();
@@ -240,6 +257,14 @@ namespace CatGame
 
             rainbowLighting.Update(delta);
         }
+
+        private bool isCollision(Obstacle o, Barf b)
+        {
+            BoundingBox obstacleBounds = o.getBoundingBox();
+            BoundingBox barfBounds = b.getBoundingBox();
+
+            return (obstacleBounds.Intersects(barfBounds));
+        }
                 
         private bool isCollision(Obstacle o, Player p)
         {
@@ -290,6 +315,8 @@ namespace CatGame
         private void drawRunning(GameTime gameTime)
         {
 
+            
+
             // Draw each viewport
             for (int i = 0; i < players.Count(); i++)
             {
@@ -332,6 +359,11 @@ namespace CatGame
             }
 
             players[i].Draw(gameTime, view, projection, rainbowLighting, players[i]);
+
+            foreach (Barf b in barfDict[players[i]])
+            {
+                b.Draw(gameTime, view, projection, rainbowLighting, players[i]);
+            }
             
             // Sprite mode
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
@@ -375,6 +407,35 @@ namespace CatGame
 
         internal void playerBarfsBonus(Player player)
         {
+
+            Barf b = new Barf(player);
+            b.LoadContent(Content);
+            barfDict[player].Add(b);
+        }
+
+
+        private void handleBarfCollision(Obstacle ob, Barf b)
+        {
+            switch (b.type)
+            {
+                case Player.Bonus.SCALE_UP:
+                    ob.increaseSize(b.spawner);
+                    break;
+                case Player.Bonus.SCALE_DOWN:
+                    ob.decreaseSize(b.spawner);
+                    break;
+                case Player.Bonus.MOVE_LEFT:
+                    ob.moveLeft(b.spawner);
+                    break;
+                case Player.Bonus.MOVE_RIGHT:
+                    ob.moveRight(b.spawner);
+                    break;
+                default:
+                    Console.WriteLine("Barf fallthrough, player bonus state is wrong");
+                    break;
+            }
+        }
+        /*
             List<Obstacle> candidates = new List<Obstacle>();
             foreach (Obstacle o in obstacles)
             {
@@ -390,31 +451,15 @@ namespace CatGame
             
             Obstacle ob = candidates.Last();
             
-            switch (player.getActiveBonus())
-            {
-                case Player.Bonus.SCALE_UP:
-                    ob.increaseSize(player);
-                    break;
-                case Player.Bonus.SCALE_DOWN:
-                    ob.decreaseSize(player);
-                    break;
-                case Player.Bonus.MOVE_LEFT:
-                    ob.moveLeft(player);
-                    break;
-                case Player.Bonus.MOVE_RIGHT:
-                    ob.moveRight(player);
-                    break;
-                default:
-                    Console.WriteLine("Barf fallthrough, player bonus state is wrong");
-                    break;
-            }
+            
             
         }
-
+        */
         internal Player registerPlayer(int controller, bool usesKeyboard)
         {
             players.Add(new Player((PlayerIndex)controller,usesKeyboard,this,CAT_NAMES[players.Count()],players.Count()));
             Player p = players.Last();
+            barfDict.Add(p, new List<Barf>());
             p.LoadContent(Content);
             return p;
             
@@ -453,6 +498,7 @@ namespace CatGame
         {
             players = new List<Player>();
             deadPlayers = new List<Player>();
+            barfDict = new Dictionary<Player, List<Barf>>();
             activeState = State.INTRO;
         }
     }
